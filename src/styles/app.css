@@ -1,0 +1,171 @@
+.none {
+    display: none;
+}
+
+.non {
+    margin-top: 30px;
+}
+
+body {
+    color: #b7b7b7;
+    background-color: #000000;
+}
+
+.request img {
+    height: 20px;
+    width: 20px;
+}
+
+.request {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 99;
+}
+
+.app {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search {
+    background-color: rgba(0, 0, 0, .9);
+    width: 100%;
+    z-index: 98;
+    position: fixed;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content:flex-start;
+}
+
+.search form {
+    margin-left: 5%;
+    min-width: 310px;
+}
+
+.search input {
+    margin-bottom: 7px;
+    padding: 0 5px 0 5px;
+    border-radius: 5px;
+    border: solid 1px #343434;
+    width: 250px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0);
+}
+
+.search button {
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    background: none;
+    border: none;
+    transition: 2s;
+}
+
+.search button:focus {
+outline: none;
+}
+
+.search button:hover {
+    color: #fb9292;
+}
+
+.search img {
+    position: relative;
+    width: 180px;
+    height: 40px;
+}
+
+.search ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    list-style-type: none;
+}
+
+.popular ul li{
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.popular ul li:hover {
+    color: #fb9292;
+}
+
+.load {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list img {
+    height: 330px;
+    width: 220px;
+    border: solid 1px #343434;
+}
+
+.list figure {
+    cursor: pointer;
+    position: relative;
+    margin: 0 0 0 0;
+}
+
+.list img {
+    margin: 0 4px 0 0;
+}
+
+.list figcaption {
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+}
+
+.list figcaption :nth-child(1) {
+    text-align: center;
+    position: absolute;
+    bottom: 307px;
+    left: 121px;
+    width: 100px;
+    padding: 5px 0 5px 0;
+    background-color: rgba(137, 0, 0, 0.7);
+    text-shadow: 1px 1px 1px #676767;
+
+}
+
+.list figcaption :nth-child(2) {
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 50px;
+    width: 220px;
+    position:absolute;
+    left: 1px;
+    bottom:5px;
+    text-shadow: 1px 1px 1px #676767;
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.list {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    align-content:flex-start;
+    width: 90%;
+}
+
+.list a {
+    margin: 0 4px 0 0;
+}
