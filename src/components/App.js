@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <div className="app">
         <Load loading={ this.props.loading }/>
-        <Search genres={ this.props.genres } request={ this.props.request }/>
+        <Search url={ this.props.url } genres={ this.props.genres } request={ this.props.request }/>
         <Main {... this.props }/>
       </div>
     );

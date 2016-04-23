@@ -3,18 +3,20 @@ import ReactDOM from 'react-dom';
 
 export default class Form extends Component {
 
-  onClickBut() {
+  onClickBut(e) {
+    console.log(e);
     let value = ReactDOM.findDOMNode(this.refs.search).value;
     if(value) {
       let input = `search/multi?query=${value}&`.trim();
       this.props.request(input);
       ReactDOM.findDOMNode(this.refs.search).value = '';
     }
+    e.preventDefault();
   }
 
   render() {
     return (
-      <form>
+      <form submit={::this.onClickBut}>
         <input
           type="text"
           defaultValue=""

@@ -15,12 +15,29 @@ export default class Main extends Component {
     this.props.request(url);
   }
 
+  onClickPage(e) {
+    this.props.request(`${this.props.url}page=${e.target.value}&`)
+  }
+
   render() {
     let parse = this.props.list;
-
+    let pages = this.props.pages;
+    let page = this.props.page;
     if(!parse.length) {
         return (<div className="non"><h3>Total results: 0</h3></div>);
     }
+
+    let arrPage = new Array(11).fill(page<7 ? 1 : page-5)
+                 .map((x, ind)=> {
+      x = x+ind;
+      return (
+        <li key={`page${ind}`}>
+          <a href="#" onClick={ ::this.onClickPage } style={{color: x===page?'#fb9292':''}}>
+            { x<1 ? '' : x }
+          </a>
+        </li>
+      )
+    });
 
     parse = parse.map((x)=> {
       if(x.media_type==='tv') return x='';
@@ -29,7 +46,6 @@ export default class Main extends Component {
              : 'img/no.png',
           type = x.media_type || 'movie',
           style = {background: type==='movie'?'':'rgba(0, 137, 0, 0.7)'};
-
       return (
         <figure key={`${type[0]}${x.id}`} id={`${type}/${x.id}`}
                 onClick={this.onClickPoster.bind(this, [x.id, type])}>
@@ -42,9 +58,19 @@ export default class Main extends Component {
       );
     });
     return (
-      <div className="list">
-        { parse }
-      </div>
+      <main>
+        <div className="list">
+          { parse }
+        </div>
+        <div className="page">
+          <ul>
+            { arrPage }
+          </ul>
+          <span>
+            Total pages: { pages }
+          </span>
+        </div>
+      </main>
     );
   }
 }

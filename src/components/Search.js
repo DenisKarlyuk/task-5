@@ -4,24 +4,53 @@ import Form from './Form';
 export default class Search extends Component {
 
   onClickGenr(e) {
-    this.props.request(`genre/${e.target.id}/movies?`);
+    if(+e.target.id) {
+      this.props.request(`genre/${e.target.id}/movies?`);
+    }
+    else {
+    this.props.request(`movie/${e.target.id}?`);
+    }
+
   }
 
   render() {
     let gen = this.props.genres
-    gen = gen.map((x)=>
-      <li key={ x.id } id={ x.id }
-          onClick={ ::this.onClickGenr }>
-        { x.name }
-      </li>);
+    gen = gen.map((x)=> {
+      if(x.name==='TV Movie') return x='';
+      return (
+        <li key={ x.id }>
+          <a href="#" id={ x.id }
+             onClick={ ::this.onClickGenr }>
+              { x.name }
+          </a>
+        </li>);
+    });
 
     return (
       <div className="search">
         <img src="/img/logo.png"/>
         <Form request={ this.props.request }/>
-        <div className="popular">
-          <ul>{ gen }</ul>
-        </div>
+          <ul className="rated">
+            <li>
+              <a href="#">
+                Genre
+                <i className="fa fa-bars" aria-hidden="true"/>
+              </a>  
+              <ul id="genre">{ gen }</ul>
+            </li>
+            <li>
+              <a href="#" id="popular"
+                 onClick={ ::this.onClickGenr }>
+                 Popular
+               </a>
+            </li>
+            <li>
+              <a href="#" id="top_rated"
+                 onClick={ ::this.onClickGenr }>
+                 Top rated
+               </a>
+            </li>
+          </ul>
       </div>
     );
   }

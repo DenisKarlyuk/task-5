@@ -24,7 +24,7 @@ function reqError(text) {
 }
 
 export function apiRequest(url) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(reqStart());
     return fetch(`http://api.themoviedb.org/3/${url}api_key=e0aa8ef5230330454d715945a0db3d27`)
       .then((resp) => resp.json())

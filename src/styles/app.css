@@ -40,10 +40,16 @@ body {
     position: fixed;
     left: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
     align-content:flex-start;
+}
+
+.search a {
+  color: #b7b7b7;
+  text-decoration: none;
+  transition: 0.5s;
 }
 
 .search form {
@@ -84,20 +90,37 @@ outline: none;
     height: 40px;
 }
 
-.search ul {
+.rated {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
     list-style-type: none;
 }
 
-.popular ul li{
-    cursor: pointer;
-    transition: 0.5s;
+.rated ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    margin-left: -20px;
+    padding: 10px 10px 10px 15px;
+    list-style-type: none;
+    background-color: rgba(0, 0, 0, .9);
 }
 
-.popular ul li:hover {
+.rated li {
+    margin: 0 10px;
+}
+
+.rated li:hover > a{
+    color: #fb9292;
+}
+
+.rated li:hover ul{
+    display: flex;
+}
+
+.rated li:hover ul li a:hover {
     color: #fb9292;
 }
 
@@ -163,9 +186,20 @@ outline: none;
     align-items: flex-start;
     flex-wrap: wrap;
     align-content:flex-start;
-    width: 90%;
 }
 
 .list a {
     margin: 0 4px 0 0;
+}
+
+@media screen and (max-width: 825px) {
+  .list {
+      margin-top: 96px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .list {
+      margin-top: 136px;
+  }
 }
