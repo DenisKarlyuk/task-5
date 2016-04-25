@@ -72,7 +72,7 @@ export default class Main extends Component {
             <span>
               /
             </span>
-              Enter page
+              Enter page:
             </p>
             <form onSubmit={::this.onClickPage }>
               <input type="text" value={ this.state.inputPage }
