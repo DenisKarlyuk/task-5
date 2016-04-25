@@ -1,3 +1,8 @@
+.page ul a, .search input, .page input {
+  border-radius: 5px;
+  border: solid 1px #343434;
+}
+
 .none {
     display: none;
 }
@@ -46,10 +51,11 @@ body {
     align-content:flex-start;
 }
 
-.search a {
-  color: #b7b7b7;
-  text-decoration: none;
-  transition: 0.5s;
+.search a,
+.page ul a {
+    color: #b7b7b7;
+    text-decoration: none;
+    transition: 0.5s;
 }
 
 .search form {
@@ -60,8 +66,6 @@ body {
 .search input {
     margin-bottom: 7px;
     padding: 0 5px 0 5px;
-    border-radius: 5px;
-    border: solid 1px #343434;
     width: 250px;
     height: 30px;
     background: rgba(0, 0, 0, 0);
@@ -76,11 +80,16 @@ body {
     transition: 2s;
 }
 
-.search button:focus {
+.search button:focus,
+.page button:focus {
 outline: none;
 }
 
-.search button:hover {
+.search button:hover,
+.page ul a:hover,
+.page button:hover,
+.rated li:hover > a,
+.rated li:hover ul li a:hover {
     color: #fb9292;
 }
 
@@ -112,16 +121,8 @@ outline: none;
     margin: 0 10px;
 }
 
-.rated li:hover > a{
-    color: #fb9292;
-}
-
 .rated li:hover ul{
     display: flex;
-}
-
-.rated li:hover ul li a:hover {
-    color: #fb9292;
 }
 
 .load {
@@ -190,6 +191,70 @@ outline: none;
 
 .list a {
     margin: 0 4px 0 0;
+}
+
+.page {
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    margin-top: 5px;
+    padding: 0;
+
+}
+
+.page span {
+    padding-bottom: 10px;
+}
+
+.page ul li {
+  margin: 0 5px;
+}
+
+.page ul a {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 20px;
+    transition: 0.5s;
+}
+
+.page input {
+    text-align: right;
+    width: 30px;
+    padding: 2px 3px;
+    background: #000;
+}
+
+.page button {
+    background: none;
+    border: none;
+}
+
+.page div {
+    display: flex;
+    justify-content: center;
+}
+
+.page form {
+    margin-left: 5px;
+}
+
+.page span {
+    margin: 0 2px;
+}
+
+.page p {
+    margin-top: 2px;
 }
 
 @media screen and (max-width: 825px) {

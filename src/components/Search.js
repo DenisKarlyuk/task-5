@@ -8,7 +8,7 @@ export default class Search extends Component {
       this.props.request(`genre/${e.target.id}/movies?`);
     }
     else {
-    this.props.request(`movie/${e.target.id}?`);
+      this.props.request(`movie/${e.target.id}?`);
     }
 
   }
@@ -33,9 +33,8 @@ export default class Search extends Component {
           <ul className="rated">
             <li>
               <a href="#">
-                Genre
-                <i className="fa fa-bars" aria-hidden="true"/>
-              </a>  
+                Genres
+              </a>
               <ul id="genre">{ gen }</ul>
             </li>
             <li>
