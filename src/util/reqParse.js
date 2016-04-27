@@ -35,6 +35,7 @@ export function parseMovie(parse) {
     :'';
 
   let budget = ''+parse.budget;
+  //let reiting = (208*100)*(parse.vote_average*10);
   return (
     <div className = "details">
         <div className = "left">
@@ -51,7 +52,10 @@ export function parseMovie(parse) {
             <i className="fa fa-star-o" id="9" aria-hidden="true"/>
             <i className="fa fa-star-o" id="10" aria-hidden="true"/>
           </div>
-          <div className="rating full">
+          <div className="rating full" style={
+              {
+                width: (208/100)*(parse.vote_average*10)+7
+              }}>
             <i className="fa fa-star" aria-hidden="true"/>
             <i className="fa fa-star" aria-hidden="true"/>
             <i className="fa fa-star" aria-hidden="true"/>
