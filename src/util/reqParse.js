@@ -39,26 +39,38 @@ export function parseMovie(parse) {
     <div className = "details">
         <div className = "left">
           <img src = {src}/>
-          <div className="rating">
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
-            <span>&#9734;</span>
+          <div className="rating empty">
+            <i className="fa fa-star-o" id="1" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="2" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="3" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="4" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="5" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="6" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="7" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="8" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="9" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="10" aria-hidden="true"/>
           </div>
-          <p>{parse.vote_average}</p>
-          <p>{parse.vote_count}</p>
+          <div className="rating full">
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+            <i className="fa fa-star" aria-hidden="true"/>
+          </div>
+          <p>{parse.vote_average}/10 ({parse.vote_count} votes)</p>
           <p>Countries: {countries}</p>
           <p>Genres:
             {
             parse.genres.length
             ? parse.genres.map((x)=>
-              <a href="#" key={`det${x.id}`}>
+              <a href="#" onClick={::this.onClickGenr}
+                id={x.id} key={`det${x.id}`}>
                 {x.name}
               </a>)
             : no
@@ -72,7 +84,7 @@ export function parseMovie(parse) {
           <h2>
             {parse.title}
             <span id="span">
-              {`( ${parse.release_date.slice(0, 4)} )`}
+              {parse.release_date.slice(0, 4)}
             </span>
           </h2>
           <h3>Overview</h3>

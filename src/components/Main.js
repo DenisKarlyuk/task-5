@@ -48,6 +48,10 @@ export default class Main extends Component {
     });
   }
 
+  onClickGenr(e) {
+    this.props.request(`genre/${e.target.id}/movies?`);
+  }
+
   render() {
     let readyPage = (/movie\/\d+.+/).test(this.props.url)
                     ? parseMovie.call(this, this.props.list)
