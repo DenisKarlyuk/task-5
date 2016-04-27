@@ -37,8 +37,9 @@ app.use((req, res)=> {
       <!doctype html>
         <html>
           <head>
-            <title>Redux Universal Example</title>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+            <meta charset="utf-8" />
+            <title>MovieDb</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">            
           </head>
           <body>
             <div id="root">${initialView}</div>

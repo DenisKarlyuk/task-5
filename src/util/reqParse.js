@@ -1,67 +1,122 @@
 import React from 'react';
 
-export function parse(parse) {
-  if(!parse.length & !parse.id) {
-    return (<div className="non"><h3>Total results: 0</h3></div>);
-  }
-  if(!parse.length) {
-    let src = parse.poster_path ? 'https://image.tmdb.org/t/p/w300' + parse.poster_path
-                                : 'img/no.png'
-    let cast = parse.credits.cast.map((x)=> {
+export function parseMovie(parse) {
+  const no = 'no information';
+  let src = parse.poster_path ? 'https://image.tmdb.org/t/p/w300' + parse.poster_path
+                              : 'img/no.png';
+  let cast = parse.credits.cast.length
+    ? parse.credits.cast.map((x)=> {
       let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185' + x.profile_path
                                : 'img/no.png';
       return (
         <figure key = {x.id} onClick={this.onClickPoster.bind(this, [x.id, 'person'])}>
           <img src = {src}/>
             <figcaption>
-              <span>{x.name}</span>
+              <p>{x.name}</p>
+              <p>as</p>
+              <p>{x.character}</p>
+            </figcaption>
+          </figure>
+        );
+      })
+    : no;
+
+  let countries = parse.production_countries.length
+    ? parse.production_countries.map((x)=>
+      <img src={`gif/${x.iso_3166_1.toLowerCase()}.gif`}
+        key={x.iso_3166_1} title={x.name}/>)
+    : no;
+
+  let iframe = parse.videos.results.length
+    ? <iframe src={
+      `http://www.youtube.com/embed/${(parse.videos.results[1]
+      ||parse.videos.results[0]).key}?&modestbranding=1&showinfo=0` }
+      allowFullScreen="allowfullscreen" frameBorder="0"/>
+    :'';
+
+  let budget = ''+parse.budget;
+  return (
+    <div className = "details">
+        <div className = "left">
+          <img src = {src}/>
+          <div className="rating">
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+            <span>&#9734;</span>
+          </div>
+          <p>{parse.vote_average}</p>
+          <p>{parse.vote_count}</p>
+          <p>Countries: {countries}</p>
+          <p>Genres:
+            {
+            parse.genres.length
+            ? parse.genres.map((x)=>
+              <a href="#" key={`det${x.id}`}>
+                {x.name}
+              </a>)
+            : no
+            }
+          </p>
+          <p>Runtime: {parse.runtime||'-'} min.</p>
+          <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
+        </div>
+        <div className="right">
+          {iframe}
+          <h2>
+            {parse.title}
+            <span id="span">
+              {`( ${parse.release_date.slice(0, 4)} )`}
+            </span>
+          </h2>
+          <h3>Overview</h3>
+          <p>{parse.overview||no}</p>
+          <h3>Cast</h3>
+          <div className="cast" style={
+              {
+              maxHeight: this.state.classI[0]==='none'
+                      ? '50px'
+                      : ''
+              }
+            }>
+            {cast}
+          </div>
+          <i className={`${this.state.classI[0]} fa fa-angle-double-up`}
+            onClick={::this.onClickCastShow} aria-hidden="true"/>
+          <i className={`${this.state.classI[1]} fa fa-angle-double-down`}
+            onClick={::this.onClickCastShow} aria-hidden="true"/>
+          <div className="comment"></div>
+      </div>
+    </div>
+  );
+}
+
+export function parse(parse) {
+  if (parse.length) {
+    return parse.map((x)=> {
+      if(x.media_type==='tv') return x='';
+      let src = x.poster_path || x.profile_path
+             ? `https://image.tmdb.org/t/p/w300${x.poster_path || x.profile_path})`
+             : 'img/no.png',
+          type = x.media_type || 'movie',
+          style = {background: type==='movie'?'':'rgba(0, 137, 0, 0.7)'};
+      return (
+        <figure key={`${type[0]}${x.id}`} id={`${type}/${x.id}`}
+                onClick={this.onClickPoster.bind(this, [x.id, type])}>
+          <img src={src}/>
+            <figcaption>
+              <span style={style}>{type}</span>
+              <span>{x.name || x.title}</span>
             </figcaption>
         </figure>
       );
     });
-    let videoUrl = `http://www.youtube.com/embed/${parse.videos.results[0].key}?fautoplay=0`;
-    return (
-      <div className = "details">
-        <div className = "left">
-          <img src = {src}/>
-          <p>{parse.vote_average}</p>
-          <p>{parse.vote_count}</p>
-          <p>{parse.budget}</p>
-          <p>{parse.overview}</p>
-        </div>
-        <div className="right">
-          <h3>
-            {parse.title}
-            <span>
-              ({parse.release_date.slice(0, 4)})
-            </span>
-          </h3>
-          <iframe width="100%" height="auto" src={ videoUrl }
-            allowFullScreen="allowfullscreen" frameBorder="0"/>
-          <p>{parse.production_countries.map((x, ind)=>
-              <span key={`cou${ind}`}>{ x.name }</span>)}</p>
-          <div className="cast">{cast}</div>
-          <div className="comment"></div>
-        </div>
-      </div>
-    );
   }
-  return parse.map((x)=> {
-    if(x.media_type==='tv') return x='';
-    let src = x.poster_path || x.profile_path
-           ? `https://image.tmdb.org/t/p/w300${x.poster_path || x.profile_path})`
-           : 'img/no.png',
-        type = x.media_type || 'movie',
-        style = {background: type==='movie'?'':'rgba(0, 137, 0, 0.7)'};
-    return (
-      <figure key={`${type[0]}${x.id}`} id={`${type}/${x.id}`}
-              onClick={this.onClickPoster.bind(this, [x.id, type])}>
-        <img src={src}/>
-          <figcaption>
-            <span style={style}>{type}</span>
-            <span>{x.name || x.title}</span>
-          </figcaption>
-      </figure>
-    );
-  });
+  return (<div className="non"><h3>Total results: 0</h3></div>);
 }
