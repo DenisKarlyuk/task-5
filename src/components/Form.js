@@ -19,11 +19,11 @@ export default class Form extends Component {
   }
 
   onClickSelect(e) {
-    let inspection = ['movie', 'person', 'multi'];
-    if(inspection.indexOf(e.target.innerText)<0) return;
+    if(!e.target.value) return;
     this.setState({
-      search: e.target.innerText
+      search: e.target.value
     });
+    console.log(this.state.search);
   }
 
   componentDidMount() {
@@ -37,16 +37,15 @@ export default class Form extends Component {
         <input
           type="text"
           defaultValue=""
-          placeholder={`Search for a ${this.state.search}`}
           ref="search"/>
         <button type="submit">
           <i className="fa fa-search" aria-hidden="true"/>
         </button>
-        <p id="select">Select: search for a
-          &nbsp;<span>movie</span>,
-          &nbsp;<span>person</span>
-          &nbsp;and <span>multi</span> search
-        </p>
+        <div id="select">
+          <label><input type="radio" name="option" value="movie"/>Movie</label>
+          <label><input type="radio" name="option" value="person"/>Person</label>
+          <label><input type="radio" defaultChecked="checked" name="option" value="multi"/>Multi</label>
+        </div>
       </form>
     );
   }
