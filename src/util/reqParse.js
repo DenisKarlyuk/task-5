@@ -54,7 +54,7 @@ export function parseMovie(parse) {
           </div>
           <div className="rating full" style={
               {
-                width: (208/100)*(parse.vote_average*10)+7
+                width: (208/100)*(parse.vote_average*10)+5
               }}>
             <i className="fa fa-star" aria-hidden="true"/>
             <i className="fa fa-star" aria-hidden="true"/>

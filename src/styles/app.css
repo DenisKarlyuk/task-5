@@ -361,16 +361,16 @@ body {
 }
 
 .full>i {
-    margin-left: 5.6px;
+    margin-left: ;
 }
-/*5-213*/
+
 .full {
     z-index: -1;
     overflow: hidden;
-    font-size: 17px;
+    font-size: 23px;
     position: relative;
-    left: 18px;
-    bottom: 2px;
+    left: 21.5px;
+    bottom: 5px;
     color: rgba(137, 0, 0, 0.7);
 }
 
