@@ -23,12 +23,16 @@ export default class Form extends Component {
     this.setState({
       search: e.target.value
     });
-    console.log(this.state.search);
   }
 
   componentDidMount() {
     let listen = document.getElementById('select');
     listen.addEventListener('click', ::this.onClickSelect);
+  }
+
+  componentWillUnmount() {
+    let listen = document.getElementById('select');
+    listen.removeEventListener('click', ::this.onClickSelect);
   }
 
   render() {

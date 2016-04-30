@@ -6,7 +6,8 @@ export default class Main extends Component {
     super(props);
     this.state = {
       inputPage: '',
-      classI: ['none','']
+      classI: ['none',''],
+      dataBase: ''
     }
   }
 
@@ -52,6 +53,11 @@ export default class Main extends Component {
     this.props.request(`genre/${e.target.id}/movies?`);
   }
 
+  onClickComment(e) {
+    console.log(e.target);
+    e.preventDefault();
+  }
+
   render() {
     let readyPage = (/movie\/\d+.+/).test(this.props.url)
                     ? parseMovie.call(this, this.props.list)
@@ -91,7 +97,7 @@ export default class Main extends Component {
             </span>
               Enter page:
             </p>
-            <form onSubmit={::this.onClickPage }>
+            <form onSubmit={::this.onClickPage}>
               <input type="text" value={ this.state.inputPage }
                      maxLength="4" onChange={::this.onChangeInput }/>
               <button type="submit">

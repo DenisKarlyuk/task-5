@@ -32,7 +32,7 @@ export default class Search extends Component {
         <Form request={ this.props.request }/>
           <ul className="rated">
             <li>
-              <a href="#">
+              <a>
                 Genres
               </a>
               <ul id="genre">{ gen }</ul>

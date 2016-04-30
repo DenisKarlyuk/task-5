@@ -35,27 +35,25 @@ export function parseMovie(parse) {
     :'';
 
   let budget = ''+parse.budget;
-  //let reiting = (208*100)*(parse.vote_average*10);
+  //вычисление длинны блока, 5 корректировка длинны
+  let rating = (208/100)*(parse.vote_average*10)+5;
   return (
     <div className = "details">
         <div className = "left">
           <img src = {src}/>
-          <div className="rating empty">
-            <i className="fa fa-star-o" id="1" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="2" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="3" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="4" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="5" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="6" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="7" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="8" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="9" aria-hidden="true"/>
+          <div className="rating empty" onClick={::this.onClickComment}>
             <i className="fa fa-star-o" id="10" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="9" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="8" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="7" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="6" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="5" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="4" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="3" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="2" aria-hidden="true"/>
+            <i className="fa fa-star-o" id="1" aria-hidden="true"/>
           </div>
-          <div className="rating full" style={
-              {
-                width: (208/100)*(parse.vote_average*10)+5
-              }}>
+          <div className="rating full" style={{width: rating}}>
             <i className="fa fa-star" aria-hidden="true"/>
             <i className="fa fa-star" aria-hidden="true"/>
             <i className="fa fa-star" aria-hidden="true"/>
@@ -82,6 +80,13 @@ export function parseMovie(parse) {
           </p>
           <p>Runtime: {parse.runtime||'-'} min.</p>
           <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
+            <form onSubmit={::this.onClickComment}>
+              <p>Name:</p>
+              <input type="text" defaultValue="" name="name" required/>
+              <p>Comment:</p>
+              <textarea name="comment" required/>
+              <input type="submit" value="Submit"/>
+            </form>
         </div>
         <div className="right">
           {iframe}
@@ -107,7 +112,9 @@ export function parseMovie(parse) {
             onClick={::this.onClickCastShow} aria-hidden="true"/>
           <i className={`${this.state.classI[1]} fa fa-angle-double-down`}
             onClick={::this.onClickCastShow} aria-hidden="true"/>
-          <div className="comment"></div>
+          <h3>Reviews</h3>
+          <div className="comment">
+          </div>
       </div>
     </div>
   );
@@ -120,10 +127,10 @@ export function parse(parse) {
       let src = x.poster_path || x.profile_path
              ? `https://image.tmdb.org/t/p/w300${x.poster_path || x.profile_path})`
              : 'img/no.png',
-          type = x.media_type || 'movie',
+          type = x.title ? 'movie' : 'person',
           style = {background: type==='movie'?'':'rgba(0, 137, 0, 0.7)'};
       return (
-        <figure key={`${type[0]}${x.id}`} id={`${type}/${x.id}`}
+        <figure key={`${type}${x.id}`} id={`${type}/${x.id}`}
                 onClick={this.onClickPoster.bind(this, [x.id, type])}>
           <img src={src}/>
             <figcaption>
