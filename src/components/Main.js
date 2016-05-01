@@ -70,7 +70,7 @@ export default class Main extends Component {
     id: e.target.id,
     name: e.target.name.value,
     comment: e.target.comment.value,
-    data: new Date()
+    data: new Date().toUTCString()
   })
 })
   }
@@ -103,9 +103,7 @@ export default class Main extends Component {
           { readyPage }
         </div>
         <div className={ pages<2 ? 'none' : 'page' }>
-          <ul>
-            { arrPage }
-          </ul>
+          <ul>{ arrPage }</ul>
           <div>
             <p>
               Total pages: { pages }

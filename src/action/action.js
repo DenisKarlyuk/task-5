@@ -52,7 +52,7 @@ export function apiDb(id) {
   return (dispatch)=> {
     return fetch(`https://api.mlab.com/api/1/databases/movie/collections/${id}apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`)
       .then((resp) => resp.json())
-      .then((json) => {console.log(id); return dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json))})
+      .then((json) => dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }

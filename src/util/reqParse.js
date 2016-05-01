@@ -21,7 +21,14 @@ export function parseMovie(parse) {
       })
     : no;
 
-
+  let comment = this.props.comment.length
+    ? this.props.comment.reverse().map((x)=>
+      <div key={x.data}>
+        <p>A review by {x.name}</p>
+        <p>{x.comment}</p>
+        <p>{x.data}</p>
+      </div>)
+    : <p>No comment</p>;
 
   let countries = parse.production_countries.length
     ? parse.production_countries.map((x)=>
@@ -84,9 +91,10 @@ export function parseMovie(parse) {
           <p>Runtime: {parse.runtime||'-'} min.</p>
           <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
             <form id={parse.id} onSubmit={::this.onClickComment}>
+              <p style={{color:'#52db52'}}>WRITE A REWIEW:</p>
               <p>Name:</p>
               <input type="text" defaultValue="" name="name" required/>
-              <p>Comment:</p>
+              <p>Rewiew:</p>
               <textarea name="comment" required/>
               <input type="submit" value="Submit"/>
             </form>
@@ -117,7 +125,7 @@ export function parseMovie(parse) {
             onClick={::this.onClickCastShow} aria-hidden="true"/>
           <h3>Reviews</h3>
           <div className="comment">
-
+            {comment}
           </div>
       </div>
     </div>
