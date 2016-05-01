@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function parseMovie(parse) {
-  const no = 'no information';
+  const no = <p>No information</p>;
   let src = parse.poster_path ? 'https://image.tmdb.org/t/p/w300' + parse.poster_path
                               : 'img/no.png';
   let cast = parse.credits.cast.length
@@ -21,6 +21,8 @@ export function parseMovie(parse) {
       })
     : no;
 
+
+
   let countries = parse.production_countries.length
     ? parse.production_countries.map((x)=>
       <img src={`gif/${x.iso_3166_1.toLowerCase()}.gif`}
@@ -35,8 +37,9 @@ export function parseMovie(parse) {
     :'';
 
   let budget = ''+parse.budget;
-  //вычисление длинны блока, 5 корректировка длинны
+  //вычисление длинны блока, 5 - корректировка длинны
   let rating = (208/100)*(parse.vote_average*10)+5;
+
   return (
     <div className = "details">
         <div className = "left">
@@ -80,7 +83,7 @@ export function parseMovie(parse) {
           </p>
           <p>Runtime: {parse.runtime||'-'} min.</p>
           <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
-            <form onSubmit={::this.onClickComment}>
+            <form id={parse.id} onSubmit={::this.onClickComment}>
               <p>Name:</p>
               <input type="text" defaultValue="" name="name" required/>
               <p>Comment:</p>
@@ -114,6 +117,7 @@ export function parseMovie(parse) {
             onClick={::this.onClickCastShow} aria-hidden="true"/>
           <h3>Reviews</h3>
           <div className="comment">
+
           </div>
       </div>
     </div>

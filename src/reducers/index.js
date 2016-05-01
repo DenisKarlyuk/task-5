@@ -22,6 +22,14 @@ export default function (state, action) {
       error: action.text,
       loading: 'none'
     };
+  case 'LOADED_RANK':
+    return {...state,
+      rank: action.rank
+    };
+  case 'LOADED_COMMENT':
+    return {...state,
+      comment: action.comment
+    };
   default:
     return state;
   }

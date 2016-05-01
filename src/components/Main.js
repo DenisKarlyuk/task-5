@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { parse, parseMovie } from '../util/reqParse'
+import fetch from 'isomorphic-fetch';
+import { parse, parseMovie } from '../util/reqParse';
 
 export default class Main extends Component {
   constructor(props) {
@@ -15,10 +16,14 @@ export default class Main extends Component {
     this.setState({
       classI: ['none','']
     });
-    let url = `${arg[1]}/${arg[0]}${arg[1][0]==='m'
-            ? '?append_to_response=credits,videos&'
-            : '/combined_credits?'}`;
-    this.props.request(url);
+    if(arg[1][0]==='m') {
+      this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
+      this.props.reqDb(`comment?q={"id":"${arg[0]}"}&`);
+      this.props.reqDb(`rank?${arg[0]}&`);
+    }
+    else {
+      this.props.request(`${arg[1]}/${arg[0]}/combined_credits?`);
+    }
   }
 
   onClickPage(e) {
@@ -54,8 +59,20 @@ export default class Main extends Component {
   }
 
   onClickComment(e) {
-    console.log(e.target);
     e.preventDefault();
+    fetch('https://api.mlab.com/api/1/databases/movie/collections/comment?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT', {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    id: e.target.id,
+    name: e.target.name.value,
+    comment: e.target.comment.value,
+    data: new Date()
+  })
+})
   }
 
   render() {

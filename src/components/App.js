@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
-import { apiRequest } from '../action/action';
+import { apiRequest, apiDb } from '../action/action';
 
 class App extends Component {
   render() {
@@ -26,13 +26,16 @@ function mapStateToProps(state) {
     loading: state.loading,
     url: state.url,
     page: state.page,
-    pages: state.pages
+    pages: state.pages,
+    rank: state.rank,
+    comment: state.comment
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    request: bindActionCreators(apiRequest, dispatch)
+    request: bindActionCreators(apiRequest, dispatch),
+    reqDb: bindActionCreators(apiDb, dispatch)
   };
 }
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 export default class Form extends Component {
   constructor(props) {
@@ -11,11 +10,11 @@ export default class Form extends Component {
 
   onClickBut(e) {
     e.preventDefault();
-    let value = ReactDOM.findDOMNode(this.refs.search).value;
+    let value = e.target.search.value;
     if(!value) return;
     let input = `search/${this.state.search}?query=${value}&`.trim();
     this.props.request(input);
-    ReactDOM.findDOMNode(this.refs.search).value = '';
+    e.target.search.value = '';
   }
 
   onClickSelect(e) {
@@ -41,7 +40,7 @@ export default class Form extends Component {
         <input
           type="text"
           defaultValue=""
-          ref="search"/>
+          name="search"/>
         <button type="submit">
           <i className="fa fa-search" aria-hidden="true"/>
         </button>
