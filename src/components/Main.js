@@ -8,7 +8,8 @@ export default class Main extends Component {
     this.state = {
       inputPage: '',
       classI: ['none',''],
-      dataBase: ''
+      comment: '',
+      rank: ''
     }
   }
 
@@ -60,19 +61,36 @@ export default class Main extends Component {
 
   onClickComment(e) {
     e.preventDefault();
-    fetch('https://api.mlab.com/api/1/databases/movie/collections/comment?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT', {
-  method: 'POST',
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    id: e.target.id,
-    name: e.target.name.value,
-    comment: e.target.comment.value,
-    data: new Date().toUTCString()
-  })
-})
+    let urlDb = 'comment';
+    let body = 
+    {
+      id: e.target.id,
+      name: e.target.name.value,
+      comment: e.target.comment.value,
+      data: new Date().toUTCString()
+    };
+    fetch(`https://api.mlab.com/api/1/databases/movie/collections/${urlDb}?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({body})
+    }).then(res=>console.log(res))
+  }
+
+  onClickRating(e) {
+    fetch('https://api.mlab.com/api/1/databases/movie/collections/rank?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({
+        clientId: this.props.clientId,
+        rank: e.target.id
+      })
+    }).then(res=> console.log(res))
   }
 
   render() {

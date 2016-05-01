@@ -20,7 +20,12 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(__dirname + '/static'));
 app.use((req, res)=> {
 
-  const store = configStore();
+  const store = configStore(
+    {
+      comment: [],
+      rank: []
+    }
+  );
 
   function renderView() {
 
@@ -39,7 +44,7 @@ app.use((req, res)=> {
           <head>
             <meta charset="utf-8" />
             <title>MovieDb</title>
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">            
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
           </head>
           <body>
             <div id="root">${initialView}</div>

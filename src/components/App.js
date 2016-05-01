@@ -5,14 +5,32 @@ import Search from './Search';
 import Main from './Main';
 import Load from './Load';
 import { apiRequest, apiDb } from '../action/action';
+import UUID from 'uuid-js';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clientId: ''
+    }
+  }
+
+componentDidMount() {
+  if(!document.cookie) {
+    document.cookie = `clientId=${UUID.create().toString()};
+                       expires=Thu, 01 Jan 9999 00:00:00 GMT`;
+  }
+  this.setState({
+    clientId: document.cookie.replace(/clientId=(.+)/, '$1')
+  });
+}
+
   render() {
     return (
       <div className="app">
         <Load loading={ this.props.loading }/>
         <Search genres={ this.props.genres } request={ this.props.request }/>
-        <Main {... this.props }/>
+        <Main {... this.props } clientId={ this.state.clientId }/>
       </div>
     );
   }

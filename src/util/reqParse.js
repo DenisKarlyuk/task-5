@@ -28,7 +28,7 @@ export function parseMovie(parse) {
         <p>{x.comment}</p>
         <p>{x.data}</p>
       </div>)
-    : <p>No comment</p>;
+    : <p>No review</p>;
 
   let countries = parse.production_countries.length
     ? parse.production_countries.map((x)=>
@@ -47,33 +47,28 @@ export function parseMovie(parse) {
   //вычисление длинны блока, 5 - корректировка длинны
   let rating = (208/100)*(parse.vote_average*10)+5;
 
+  let star = new Array(10).fill(10).map((x, ind)=> {
+    x = x-ind;
+    return (
+      <i className="fa fa-star-o" key={`star${ind}`}
+        id={x} aria-hidden="true"/>
+    );
+  });
+
+  let fullStar = new Array(10).fill(1).map((x, ind)=>
+      <i className="fa fa-star" key={`full${ind}`}
+        id={x} aria-hidden="true"/>
+  );
+
   return (
     <div className = "details">
         <div className = "left">
           <img src = {src}/>
-          <div className="rating empty" onClick={::this.onClickComment}>
-            <i className="fa fa-star-o" id="10" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="9" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="8" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="7" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="6" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="5" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="4" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="3" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="2" aria-hidden="true"/>
-            <i className="fa fa-star-o" id="1" aria-hidden="true"/>
+          <div className="rating empty" onClick={::this.onClickRating}>
+            {star}
           </div>
           <div className="rating full" style={{width: rating}}>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
-            <i className="fa fa-star" aria-hidden="true"/>
+            {fullStar}
           </div>
           <p>{parse.vote_average}/10 ({parse.vote_count} votes)</p>
           <p>Countries: {countries}</p>
@@ -111,12 +106,11 @@ export function parseMovie(parse) {
           <p>{parse.overview||no}</p>
           <h3>Cast</h3>
           <div className="cast" style={
-              {
+            {
               maxHeight: this.state.classI[0]==='none'
                       ? '50px'
                       : ''
-              }
-            }>
+            }}>
             {cast}
           </div>
           <i className={`${this.state.classI[0]} fa fa-angle-double-up`}
