@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { parse, parseMovie } from '../util/reqParse';
+import Left from './Left.js';
+import Right from './Right.js';
+import { parse } from '../util/reqParse';
 
 export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputPage: '',
-      classI: ['none',''],
-      comment: '',
-      rank: ''
+      inputPage: ''
     }
   }
 
@@ -19,7 +18,7 @@ export default class Main extends Component {
     if(arg[1][0]==='m') {
       this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
       this.props.reqDb(`comment?q={"id":"${arg[0]}"}&`);
-      this.props.reqDb(`rank?${arg[0]}&`);
+      this.props.reqDb(`rank?q={"id":"${arg[0]}"}&`);
     }
     else {
       this.props.request(`${arg[1]}/${arg[0]}/combined_credits?`);
@@ -48,38 +47,13 @@ export default class Main extends Component {
     });
   }
 
-  onClickCastShow() {
-    this.setState({
-      classI: this.state.classI.reverse()
-    });
-  }
-
-  onClickGenr(e) {
-    this.props.request(`genre/${e.target.id}/movies?`);
-  }
-
-  onClickReqDb(e) {
-    e.preventDefault();
-    const reqDb = e.target.tagName==='FORM'
-      ? ['comment', {
-          id: e.target.id,
-          name: e.target.name.value,
-          comment: e.target.comment.value,
-          data: new Date().toUTCString()
-        }]
-      : ['rank', {
-          clientId: this.props.clientId,
-          rank: e.target.id
-        }];
-    this.props.postDb(reqDb[0], reqDb[1]);
-    e.target.name.value = '';
-    e.target.comment.value = '';
-  }
-
   render() {
     let readyPage = (/movie\/\d+.+/).test(this.props.url)
-                    ? parseMovie.call(this, this.props.list)
-                    : parse.call(this, this.props.list);
+                    ? (<div className = "details">
+                        <Left {...this.props}/>
+                        <Right {...this.props} clickPoster={this.onClickPoster} />
+                      </div>)
+                    : parse.call(this, this.props.list)
     const pages = this.props.pages,
           page = this.props.page;
 

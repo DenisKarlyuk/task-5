@@ -80,14 +80,9 @@ export function postDb(url, body) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)})
-      .then((resp)=> {
-        if(resp.status>=200 && resp.status<300) {
-          return url==='comment'
+      .then(()=> url==='comment'
           ? dispatch(postComment(body))
-          : dispatch(postRank(body))
-        }
-        return new Error(resp.statusText)
-      })
+          : dispatch(postRank(body)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }
