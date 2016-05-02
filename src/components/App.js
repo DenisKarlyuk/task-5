@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
-import { apiRequest, apiDb } from '../action/action';
+import { apiRequest, apiDb, postDb } from '../action/action';
 import UUID from 'uuid-js';
 
 class App extends Component {
@@ -30,7 +30,7 @@ componentDidMount() {
       <div className="app">
         <Load loading={ this.props.loading }/>
         <Search genres={ this.props.genres } request={ this.props.request }/>
-        <Main {... this.props } clientId={ this.state.clientId }/>
+        <Main {...this.props } clientId={ this.state.clientId }/>
       </div>
     );
   }
@@ -53,7 +53,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     request: bindActionCreators(apiRequest, dispatch),
-    reqDb: bindActionCreators(apiDb, dispatch)
+    reqDb: bindActionCreators(apiDb, dispatch),
+    postDb: bindActionCreators(postDb, dispatch)
   };
 }
 

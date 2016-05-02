@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import fetch from 'isomorphic-fetch';
 import { parse, parseMovie } from '../util/reqParse';
 
 export default class Main extends Component {
@@ -59,38 +58,22 @@ export default class Main extends Component {
     this.props.request(`genre/${e.target.id}/movies?`);
   }
 
-  onClickComment(e) {
+  onClickReqDb(e) {
     e.preventDefault();
-    let urlDb = 'comment';
-    let body = 
-    {
-      id: e.target.id,
-      name: e.target.name.value,
-      comment: e.target.comment.value,
-      data: new Date().toUTCString()
-    };
-    fetch(`https://api.mlab.com/api/1/databases/movie/collections/${urlDb}?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-        body: JSON.stringify({body})
-    }).then(res=>console.log(res))
-  }
-
-  onClickRating(e) {
-    fetch('https://api.mlab.com/api/1/databases/movie/collections/rank?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-        body: JSON.stringify({
-        clientId: this.props.clientId,
-        rank: e.target.id
-      })
-    }).then(res=> console.log(res))
+    const reqDb = e.target.tagName==='FORM'
+      ? ['comment', {
+          id: e.target.id,
+          name: e.target.name.value,
+          comment: e.target.comment.value,
+          data: new Date().toUTCString()
+        }]
+      : ['rank', {
+          clientId: this.props.clientId,
+          rank: e.target.id
+        }];
+    this.props.postDb(reqDb[0], reqDb[1]);
+    e.target.name.value = '';
+    e.target.comment.value = '';
   }
 
   render() {

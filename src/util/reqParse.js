@@ -21,14 +21,7 @@ export function parseMovie(parse) {
       })
     : no;
 
-  let comment = this.props.comment.length
-    ? this.props.comment.reverse().map((x)=>
-      <div key={x.data}>
-        <p>A review by {x.name}</p>
-        <p>{x.comment}</p>
-        <p>{x.data}</p>
-      </div>)
-    : <p>No review</p>;
+  let comment = comments(this.props.comment);
 
   let countries = parse.production_countries.length
     ? parse.production_countries.map((x)=>
@@ -38,13 +31,14 @@ export function parseMovie(parse) {
 
   let iframe = parse.videos.results.length
     ? <iframe src={
-      `http://www.youtube.com/embed/${(parse.videos.results[1]
-      ||parse.videos.results[0]).key}?&modestbranding=1&showinfo=0` }
+        `http://www.youtube.com/embed/${(parse.videos.results[1]
+        || parse.videos.results[0]).key}?&modestbranding=1&showinfo=0`
+      }
       allowFullScreen="allowfullscreen" frameBorder="0"/>
     :'';
 
   let budget = ''+parse.budget;
-  //вычисление длинны блока, 5 - корректировка длинны
+  //вычисление длинны блока рейтинга, (5)- корректировка длинны
   let rating = (208/100)*(parse.vote_average*10)+5;
 
   let star = new Array(10).fill(10).map((x, ind)=> {
@@ -54,7 +48,6 @@ export function parseMovie(parse) {
         id={x} aria-hidden="true"/>
     );
   });
-
   let fullStar = new Array(10).fill(1).map((x, ind)=>
       <i className="fa fa-star" key={`full${ind}`}
         id={x} aria-hidden="true"/>
@@ -64,7 +57,7 @@ export function parseMovie(parse) {
     <div className = "details">
         <div className = "left">
           <img src = {src}/>
-          <div className="rating empty" onClick={::this.onClickRating}>
+          <div className="rating empty" onClick={::this.onClickReqDb}>
             {star}
           </div>
           <div className="rating full" style={{width: rating}}>
@@ -85,7 +78,7 @@ export function parseMovie(parse) {
           </p>
           <p>Runtime: {parse.runtime||'-'} min.</p>
           <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
-            <form id={parse.id} onSubmit={::this.onClickComment}>
+            <form id={parse.id} onSubmit={::this.onClickReqDb}>
               <p style={{color:'#52db52'}}>WRITE A REWIEW:</p>
               <p>Name:</p>
               <input type="text" defaultValue="" name="name" required/>
@@ -148,4 +141,15 @@ export function parse(parse) {
     });
   }
   return (<div className="non"><h3>Total results: 0</h3></div>);
+}
+
+function comments(rewiew) {
+  return rewiew.length
+    ? rewiew.reverse().map((x)=>
+      <div key={x.data}>
+        <p>A review by {x.name}</p>
+        <p>{x.comment}</p>
+        <p>{x.data}</p>
+      </div>)
+    : <p>No review</p>;
 }
