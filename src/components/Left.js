@@ -19,8 +19,7 @@ export default class Left extends Component {
     if(!newRank) return;
     this.setState({
       clientRank: newRank.rank,
-      idRank: newRank,
-      sumVoteAverage: 0
+      idRank: newRank
     });
   }
 
@@ -75,7 +74,7 @@ export default class Left extends Component {
           {x.name}
         </a>)
       : no;
-    let rank = ratingCount.apply(this, [parse.vote_average, parse.vote_count, this.props.rank]);
+    let rank = ratingCount(parse.vote_average, parse.vote_count, this.props.rank);
     let star = new Array(10).fill(10).map((x, ind)=> {
       x = x-ind;
       return (

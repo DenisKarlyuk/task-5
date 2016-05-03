@@ -28,8 +28,10 @@ export function apiRequest(url) {
     dispatch(reqStart());
     return fetch(`http://api.themoviedb.org/3/${url}api_key=e0aa8ef5230330454d715945a0db3d27`)
       .then((resp) => resp.json())
-      .then((json) => dispatch(getList((json.results||json.cast||json),
-                      url, (json.page), (json.total_pages>1000 ? 1000 : json.total_pages))))
+      .then((json) => {
+        if(!json.total_pages) json.total_pages = 0;
+        dispatch(getList((json.results||json.cast||json),
+          url, (json.page||0), (json.total_pages>1000 ? 1000 : json.total_pages)))})
       .catch((text)=> dispatch(reqError(text)));
   };
 }
