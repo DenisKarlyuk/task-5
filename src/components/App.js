@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
-import { apiRequest, apiDb, postDb } from '../action/action';
+import { apiRequest, apiDb, postDb, updateRankDb } from '../action/action';
 import UUID from 'uuid-js';
 
 class App extends Component {
@@ -54,7 +54,8 @@ function mapDispatchToProps(dispatch) {
   return {
     request: bindActionCreators(apiRequest, dispatch),
     reqDb: bindActionCreators(apiDb, dispatch),
-    postDb: bindActionCreators(postDb, dispatch)
+    postDb: bindActionCreators(postDb, dispatch),
+    updateRankDb: bindActionCreators(updateRankDb, dispatch)
   };
 }
 

@@ -33,6 +33,7 @@ export function ratingCount(voteAverage, voteCount, votes) {
       sumVoteAverage = Math.round((voteAverage*voteCount+myVoteAverage)/sumVoteCount*10);
   sumVoteAverage = sumVoteAverage/10;
   //вычисление длинны блока рейтинга, (5)- корректировка длинны
-  let widthRating = (208/100)*(sumVoteAverage*10)+5;
+  if(isNaN(sumVoteAverage)) sumVoteAverage=0;
+  let widthRating = (208/100)*((sumVoteAverage||0)*10)+5;
   return [sumVoteCount, sumVoteAverage, widthRating];
 }

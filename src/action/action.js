@@ -29,7 +29,7 @@ export function apiRequest(url) {
     return fetch(`http://api.themoviedb.org/3/${url}api_key=e0aa8ef5230330454d715945a0db3d27`)
       .then((resp) => resp.json())
       .then((json) => dispatch(getList((json.results||json.cast||json),
-                      url, (json.page||0), (json.total_pages||0))))
+                      url, (json.page), (json.total_pages>1000 ? 1000 : json.total_pages))))
       .catch((text)=> dispatch(reqError(text)));
   };
 }
@@ -64,13 +64,6 @@ function postComment(comment) {
   };
 }
 
-function postRank(rank) {
-  return {
-    type: 'POST_RANK',
-    rank
-  };
-}
-
 export function postDb(url, body) {
   return (dispatch)=> {
     return fetch(`https://api.mlab.com/api/1/databases/movie/collections/${url}?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
@@ -82,7 +75,21 @@ export function postDb(url, body) {
       body: JSON.stringify(body)})
       .then(()=> url==='comment'
           ? dispatch(postComment(body))
-          : dispatch(postRank(body)))
+          : dispatch(apiDb(`rank?q={"id": ${body.id}}&`)))
+      .catch((text)=> dispatch(reqError(text)));
+  };
+}
+
+export function updateRankDb(url, body, id) {
+  return (dispatch)=> {
+    return fetch(`https://api.mlab.com/api/1/databases/movie/collections/rank?${url}&apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'$set': body})})
+      .then(()=> dispatch(apiDb(`rank?q={"id": ${id}}&`)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }

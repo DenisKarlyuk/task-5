@@ -16,9 +16,9 @@ export default class Main extends Component {
       classI: ['none','']
     });
     if(arg[1][0]==='m') {
-      this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
+      this.props.reqDb(`rank?q={"id": ${arg[0]}}&`);
       this.props.reqDb(`comment?q={"id":"${arg[0]}"}&`);
-      this.props.reqDb(`rank?q={"id":"${arg[0]}"}&`);
+      this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
     }
     else {
       this.props.request(`${arg[1]}/${arg[0]}/combined_credits?`);
@@ -49,11 +49,11 @@ export default class Main extends Component {
 
   render() {
     let readyPage = (/movie\/\d+.+/).test(this.props.url)
-                    ? (<div className = "details">
-                        <Left {...this.props}/>
-                        <Right {...this.props} clickPoster={this.onClickPoster} />
-                      </div>)
-                    : parse.call(this, this.props.list)
+      ?(<div className = "details">
+          <Left {...this.props}/>
+          <Right {...this.props} clickPoster={this.onClickPoster}/>
+        </div>)
+      : parse.call(this, this.props.list)
     const pages = this.props.pages,
           page = this.props.page;
 
@@ -61,7 +61,7 @@ export default class Main extends Component {
     let arrPage = new Array(pages<8 ? pages : 7)
      .fill(page<5 ? 1 : page+7>pages
                   ? pages-6
-                 : page-3).map((x, ind)=> {
+                  : page-3).map((x, ind)=> {
       x = x+ind;
       return (
         <li key={`page${ind}`}>

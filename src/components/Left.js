@@ -5,33 +5,57 @@ export default class Left extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rankClass: ''
+      idRank: '',
+      clientRank: 'none'
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.rank===this.props.rank) return;
+    let newRank = nextProps.rank.find((x)=>
+      (x.clientId===this.props.clientId)
+    );
+    console.log(newRank);
+    if(!newRank) return;
+    this.setState({
+      clientRank: newRank.rank,
+      idRank: newRank,
+      sumVoteAverage: 0
+    });
   }
 
   onClickGenr(e) {
     this.props.request(`genre/${e.target.id}/movies?`);
   }
 
-  onClickReqDbRank(e) {
+  onClickPostDbRank(e) {
     e.preventDefault();
-    let idMovie = this.props.url.replace(/movie\/(.+)\?.+/, '$1'),
-        reqArg = ['rank', {
-              id: idMovie,
-              clientId: this.props.clientId,
-              rank: e.target.id
-            }];
-    this.props.postDb(reqArg[0], reqArg[1]);
+    const id = this.props.list.id;
+    if(this.state.clientRank==='none') {
+      let reqArg = ['rank', {
+        id: id,
+        clientId: this.props.clientId,
+        rank: e.target.id
+      }];
+      this.props.postDb(reqArg[0], reqArg[1]);
+    }
+    else {
+      let updateRank = {
+        'rank': ''+e.target.id
+      };
+      let url = `q={"_id":{"$oid": "${this.state.idRank._id.$oid}"}}`
+      this.props.updateRankDb(url, updateRank, id);
+    }
   }
 
-  onClickReqDbComment(e) {
+  onClickPostDbComment(e) {
     e.preventDefault();
     let reqArg = ['comment', {
-              id: e.target.id,
-              name: e.target.name.value,
-              comment: e.target.comment.value,
-              data: new Date().toUTCString()
-            }];
+      id: e.target.id,
+      name: e.target.name.value,
+      comment: e.target.comment.value,
+      data: new Date().toUTCString()
+    }];
     e.target.name.value = '';
     e.target.comment.value = '';
     this.props.postDb(reqArg[0], reqArg[1]);
@@ -50,8 +74,8 @@ export default class Left extends Component {
           id={x.id} key={`det${x.id}`}>
           {x.name}
         </a>)
-    : no;
-    let rank = ratingCount(parse.vote_average, parse.vote_count, this.props.rank);
+      : no;
+    let rank = ratingCount.apply(this, [parse.vote_average, parse.vote_count, this.props.rank]);
     let star = new Array(10).fill(10).map((x, ind)=> {
       x = x-ind;
       return (
@@ -65,8 +89,8 @@ export default class Left extends Component {
     );
     let countries = parse.production_countries.length
       ? parse.production_countries.map((x)=>
-        <img src={`gif/${x.iso_3166_1.toLowerCase()}.gif`}
-          key={x.iso_3166_1} title={x.name}/>)
+          <img src={`gif/${x.iso_3166_1.toLowerCase()}.gif`}
+            key={x.iso_3166_1} title={x.name}/>)
       : no;
       let budget = ''+parse.budget;
 
@@ -74,7 +98,7 @@ export default class Left extends Component {
       <div className = "left">
         <img src = {src}/>
         <div className="rating empty"
-          onClick={findClientRank>-1 ? '': ::this.onClickReqDbRank}>
+          onClick={::this.onClickPostDbRank}>
           {star}
         </div>
         <div className="rating full" style={{width: rank[2]}}>
@@ -84,15 +108,15 @@ export default class Left extends Component {
           <span id="vote">
             {rank[1]}/10 ({rank[0]} votes)
           </span>
-          <span className={this.state.rankClass}>
-            You voted: {this.state.rankClass}
+          <span className={this.state.clientRank}>
+            You voted: {this.state.clientRank}
           </span>
         </p>
         <p>Countries: {countries}</p>
         <p>Genres: {genres}</p>
         <p>Runtime: {parse.runtime||'-'} min.</p>
         <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
-          <form id={parse.id} onSubmit={::this.onClickReqDbComment}>
+          <form id={parse.id} onSubmit={::this.onClickPostDbComment}>
             <p style={{color:'#52db52'}}>WRITE A REWIEW:</p>
             <p>Name:</p>
             <input type="text" defaultValue="" name="name" required/>

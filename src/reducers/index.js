@@ -30,10 +30,6 @@ export default function (state, action) {
     return {...state,
       comment: action.comment
     };
-  case 'POST_RANK':
-    return {...state,
-      rank: state.rank.concat([action.rank])
-    };
   case 'POST_COMMENT':
     return {...state,
       comment: state.comment.concat([action.comment])
