@@ -63,7 +63,7 @@ export default class Right extends Component {
         <h3>Cast</h3>
         <div className="cast" style={
           {maxHeight: this.state.classI[0]==='none'
-                    ? '50px'
+                    ? '115px'
                     : ''
           }}>
           {cast}

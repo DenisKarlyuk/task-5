@@ -16,12 +16,12 @@ class App extends Component {
   }
 
 componentDidMount() {
-  if(!document.cookie) {
-    document.cookie = `clientId=${UUID.create().toString()};
-                       expires=Thu, 01 Jan 9999 00:00:00 GMT`;
+  let cookieClient = (/\bclientId=/).test(document.cookie);
+  if(!cookieClient) {
+    document.cookie = `clientId=${UUID.create().toString()};expires=Thu, 01 Jan 9999 00:00:00 GMT`;
   }
   this.setState({
-    clientId: document.cookie.replace(/clientId=(.+)/, '$1')
+    clientId: document.cookie.replace(/\bclientId=([\d\w -]+).+/, '$1')
   });
 }
 
