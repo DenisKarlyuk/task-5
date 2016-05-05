@@ -18,7 +18,8 @@ class App extends Component {
 request (url, events) {
   if(url===this.props.url) return;
   if(!events===true) history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
-  this.props.requestApi(url);
+  this.props.requestApi(url);  
+  document.body.scrollTop = 0;
 }
 
 componentDidMount() {

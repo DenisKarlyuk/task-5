@@ -19,7 +19,9 @@ app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output
 app.use(webpackHotMiddleware(compiler));
 app.use(express.static(__dirname + '/static'));
 app.use((req, res)=> {
-
+  let url = req.url.slice(1)+'&';
+  if(!(/\?/).test(url)) url = url.slice(0, -1)+'?';
+  if(url.length==='1') url = 'movie/top_rated?';
   const store = configStore();
 
   function renderView() {
@@ -52,7 +54,7 @@ app.use((req, res)=> {
     return html;
     }
   store.dispatch(reqGenres())
-  .then(()=> store.dispatch(apiRequest('movie/popular?')))
+  .then(()=> store.dispatch(apiRequest(url)))
   .then(renderView)
   .then((html)=> res.end(html));
 });

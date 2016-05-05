@@ -37,7 +37,6 @@ export default class Main extends Component {
                || events>this.props.pages) return;
     let url = this.props.url.replace(/page=.+/, '');
     this.props.request(`${url}page=${events}&`);
-    document.body.scrollTop = 0;
   }
 
   onChangeInput(e) {

@@ -27,7 +27,7 @@ export default class Search extends Component {
 
     return (
       <div className="search">
-        <img src="/img/logo.png"/>
+        <img id="top_rated" onClick={ ::this.onClickGenr } src="/img/logo.png"/>
         <Form request={ this.props.request }/>
           <ul className="rated">
             <li>

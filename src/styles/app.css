@@ -102,6 +102,7 @@ body {
 }
 
 .search img {
+    cursor: pointer;
     position: relative;
     width: 180px;
     height: 40px;
