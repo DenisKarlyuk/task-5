@@ -65,7 +65,7 @@ export default class Main extends Component {
       x = x+ind;
       return (
         <li key={`page${ind}`}>
-          <a href="#" onClick={ ::this.onClickPage }
+          <a onClick={ ::this.onClickPage }
              style={{color: x===page?'#f97575':''}}>
             { x<1 ? '' : ''+x }
           </a>

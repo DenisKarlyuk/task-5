@@ -65,11 +65,11 @@ export default class Left extends Component {
     const no = <p>No information</p>;
     let src = parse.poster_path
       ? 'https://image.tmdb.org/t/p/w300' + parse.poster_path
-      : 'img/no.png';
+      : '/img/no.png';
 
     let genres = parse.genres.length
       ? parse.genres.map((x)=>
-        <a href="#" onClick={::this.onClickGenr}
+        <a onClick={::this.onClickGenr}
           id={x.id} key={`det${x.id}`}>
           {x.name}
         </a>)
@@ -88,7 +88,7 @@ export default class Left extends Component {
     );
     let countries = parse.production_countries.length
       ? parse.production_countries.map((x)=>
-          <img src={`gif/${x.iso_3166_1.toLowerCase()}.gif`}
+          <img src={`/gif/${x.iso_3166_1.toLowerCase()}.gif`}
             key={x.iso_3166_1} title={x.name}/>)
       : no;
       let budget = ''+parse.budget;

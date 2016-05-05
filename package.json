@@ -36,6 +36,7 @@
     "react-redux": "^4.0.6",
     "redux": "^3.0.6",
     "redux-logger": "^2.6.1",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "uuid-js": "^0.7.5"
   }
 }

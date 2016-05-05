@@ -15,10 +15,18 @@ class App extends Component {
     }
   }
 
+request (url, events) {
+  console.log(url);
+  if(!events===true) history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
+  this.props.requestApi(url);
+}
+
 componentDidMount() {
+  history.replaceState({url: this.props.url}, null, `/${this.props.url.slice(0, -1)}`);
+  window.onpopstate = (e)=> this.request(e.state.url, true);
   let cookieClient = (/\bclientId=/).test(document.cookie);
   if(!cookieClient) {
-    document.cookie = `clientId=${UUID.create().toString()};expires=Thu, 01 Jan 9999 00:00:00 GMT`;
+    document.cookie = `clientId=${UUID.create().toString()};path=/;expires=Thu, 01 Jan 9999 00:00:00 GMT`;
   }
   this.setState({
     clientId: document.cookie.replace(/\bclientId=([\d\w -]+).+/, '$1')
@@ -28,9 +36,9 @@ componentDidMount() {
   render() {
     return (
       <div className="app">
-        <Load loading={ this.props.loading }/>
-        <Search genres={ this.props.genres } request={ this.props.request }/>
-        <Main {...this.props } clientId={ this.state.clientId }/>
+        <Load loading={this.props.loading}/>
+        <Search genres={this.props.genres} request={::this.request}/>
+        <Main {...this.props} request={::this.request} clientId={this.state.clientId}/>
       </div>
     );
   }
@@ -52,7 +60,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    request: bindActionCreators(apiRequest, dispatch),
+    requestApi: bindActionCreators(apiRequest, dispatch),
     reqDb: bindActionCreators(apiDb, dispatch),
     postDb: bindActionCreators(postDb, dispatch),
     updateRankDb: bindActionCreators(updateRankDb, dispatch)

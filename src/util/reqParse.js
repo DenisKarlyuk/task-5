@@ -6,7 +6,7 @@ export function parse(parse) {
       if(x.media_type==='tv') return x='';
       let src = x.poster_path || x.profile_path
              ? `https://image.tmdb.org/t/p/w300${x.poster_path || x.profile_path})`
-             : 'img/no.png',
+             : '/img/no.png',
           type = x.title ? 'movie' : 'person',
           style = {background: type==='movie'?'':'rgba(0, 137, 0, 0.7)'};
       return (

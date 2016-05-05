@@ -10,7 +10,6 @@ export default class Search extends Component {
     else {
       this.props.request(`movie/${e.target.id}?`);
     }
-
   }
 
   render() {
@@ -19,7 +18,7 @@ export default class Search extends Component {
       if(x.name==='TV Movie') return x='';
       return (
         <li key={ x.id }>
-          <a href="#" id={ x.id }
+          <a id={ x.id }
              onClick={ ::this.onClickGenr }>
               { x.name }
           </a>
@@ -38,13 +37,13 @@ export default class Search extends Component {
               <ul id="genre">{ gen }</ul>
             </li>
             <li>
-              <a href="#" id="popular"
+              <a id="popular"
                  onClick={ ::this.onClickGenr }>
                  Popular
                </a>
             </li>
             <li>
-              <a href="#" id="top_rated"
+              <a id="top_rated"
                  onClick={ ::this.onClickGenr }>
                  Top rated
                </a>

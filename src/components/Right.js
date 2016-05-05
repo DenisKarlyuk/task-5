@@ -32,10 +32,11 @@ export default class Right extends Component {
             <p>{x.data}</p>
           </div>)
       : (<p>No review</p>);
-  let cast = parse.credits.cast.length
-    ? parse.credits.cast.map((x)=> {
-      let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185' + x.profile_path
-                               : 'img/no.png';
+    let cast = parse.credits.cast.length
+      ? parse.credits.cast.map((x)=> {
+        let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185' + x.profile_path
+      : '/img/no.png';
+
       return (
         <figure key = {x.id} onClick={this.props.clickPoster.bind(this, [x.id, 'person'])}>
           <img src = {src}/>
