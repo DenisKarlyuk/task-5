@@ -20,12 +20,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(__dirname + '/static'));
 app.use((req, res)=> {
 
-  const store = configStore(
-    {
-      comment: [],
-      rank: []
-    }
-  );
+  const store = configStore();
 
   function renderView() {
 

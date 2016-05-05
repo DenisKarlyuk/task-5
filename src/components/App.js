@@ -16,13 +16,15 @@ class App extends Component {
   }
 
 request (url, events) {
-  console.log(url);
+  if(url===this.props.url) return;
   if(!events===true) history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
   this.props.requestApi(url);
 }
 
 componentDidMount() {
-  history.replaceState({url: this.props.url}, null, `/${this.props.url.slice(0, -1)}`);
+  if(!history.state)
+    history.replaceState({url: this.props.url}, null, `/${this.props.url.slice(0, -1)}`);
+
   window.onpopstate = (e)=> this.request(e.state.url, true);
   let cookieClient = (/\bclientId=/).test(document.cookie);
   if(!cookieClient) {
@@ -53,8 +55,8 @@ function mapStateToProps(state) {
     url: state.url,
     page: state.page,
     pages: state.pages,
-    rank: state.rank,
-    comment: state.comment
+    rank: state.rank||[],
+    comment: state.comment||[]
   };
 }
 
