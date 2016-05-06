@@ -15,7 +15,6 @@ export default class Left extends Component {
     let newRank = nextProps.rank.find((x)=>
       (x.clientId===this.props.clientId)
     );
-    console.log(newRank);
     if(!newRank) return;
     this.setState({
       clientRank: newRank.rank,

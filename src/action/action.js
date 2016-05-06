@@ -26,7 +26,7 @@ function reqError(text) {
 export function apiRequest(url) {
   return (dispatch)=> {
     dispatch(reqStart());
-    return fetch(`http://api.themoviedb.org/3/${url}api_key=e0aa8ef5230330454d715945a0db3d27`)
+    return fetch(`http://localhost:3300/api/movie/${url}`)
       .then((resp) => resp.json())
       .then((json) => {
         if(!json.total_pages) json.total_pages = 0;
@@ -52,7 +52,7 @@ function rank(rank) {
 
 export function apiDb(id) {
   return (dispatch)=> {
-    return fetch(`https://api.mlab.com/api/1/databases/movie/collections/${id}apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`)
+    return fetch(`http://localhost:3300/api/db/${id}`)
       .then((resp) => resp.json())
       .then((json) => dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json)))
       .catch((text)=> dispatch(reqError(text)));
@@ -68,7 +68,7 @@ function postComment(comment) {
 
 export function postDb(url, body) {
   return (dispatch)=> {
-    return fetch(`https://api.mlab.com/api/1/databases/movie/collections/${url}?apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
+    return fetch(`http://localhost:3300/api/db/${url}?`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -84,7 +84,7 @@ export function postDb(url, body) {
 
 export function updateRankDb(url, body, id) {
   return (dispatch)=> {
-    return fetch(`https://api.mlab.com/api/1/databases/movie/collections/rank?${url}&apiKey=N45LFP8U-avNxijAJ5SIwOx_LOQPhxhT`, {
+    return fetch(`http://localhost:3300/api/db/rank?${url}&`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

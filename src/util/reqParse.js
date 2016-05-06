@@ -21,7 +21,7 @@ export function parse(parse) {
       );
     });
   }
-  return (<div className="non"><h3>Total results: 0</h3></div>);
+  return (<div className="non"><h3>Not found</h3></div>);
 }
 
 export function ratingCount(voteAverage, voteCount, votes) {
