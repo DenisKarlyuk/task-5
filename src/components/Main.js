@@ -12,12 +12,7 @@ export default class Main extends Component {
   }
 
   onClickPoster(arg) {
-    this.setState({
-      classI: ['none','']
-    });
     if(arg[1][0]==='m') {
-      this.props.reqDb(`rank?q={"id": ${arg[0]}}&`);
-      this.props.reqDb(`comment?q={"id":"${arg[0]}"}&`);
       this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
     }
     else {

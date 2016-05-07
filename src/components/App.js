@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { requestDb } from '../util/reqParse';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
 import { apiRequest, apiDb, postDb, updateRankDb } from '../action/action';
-import UUID from 'uuid-js';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      clientId: ''
-    }
-  }
 
 request (url, events) {
+  const idDb = requestDb(url);
   if(url===this.props.url) return;
-  if(!events===true) history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
-  this.props.requestApi(url);  
+  if(!events===true)
+    history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
+  if(idDb) {
+    this.props.reqDb(`rank?q={"id": ${idDb[0]}}&`);
+    this.props.reqDb(`comment?q={"id":"${idDb[0]}"}&`);
+  }
+  this.props.requestApi(url);
   document.body.scrollTop = 0;
 }
 
@@ -27,13 +27,6 @@ componentDidMount() {
     history.replaceState({url: this.props.url}, null, `/${this.props.url.slice(0, -1)}`);
 
   window.onpopstate = (e)=> this.request(e.state.url, true);
-  let cookieClient = (/\bclientId=/).test(document.cookie);
-  if(!cookieClient) {
-    document.cookie = `clientId=${UUID.create().toString()};path=/;expires=Thu, 01 Jan 9999 00:00:00 GMT`;
-  }
-  this.setState({
-    clientId: document.cookie.replace(/\bclientId=([\d\w -]+).+/, '$1')
-  });
 }
 
   render() {
@@ -41,7 +34,7 @@ componentDidMount() {
       <div className="app">
         <Load loading={this.props.loading}/>
         <Search genres={this.props.genres} request={::this.request}/>
-        <Main {...this.props} request={::this.request} clientId={this.state.clientId}/>
+        <Main {...this.props} request={::this.request} clientId={this.props.clientId}/>
       </div>
     );
   }

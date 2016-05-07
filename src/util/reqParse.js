@@ -37,3 +37,11 @@ export function ratingCount(voteAverage, voteCount, votes) {
   let widthRating = (208/100)*((sumVoteAverage||0)*10)+5;
   return [sumVoteCount, sumVoteAverage, widthRating];
 }
+
+export function requestDb(url) {
+  const requestDb = (/movie\/\d+\?.+/).test(url);
+  if(requestDb) {
+    return url.match(/\d+/);
+  }
+  return false;
+}
