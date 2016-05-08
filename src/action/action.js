@@ -1,5 +1,12 @@
 import fetch from 'isomorphic-fetch';
 
+export function cookie(cookie) {
+  return {
+    type: 'SET_COOKIE',
+    cookie
+  };
+}
+
 function reqStart() {
   return {
     type: 'LOADING_LIST'

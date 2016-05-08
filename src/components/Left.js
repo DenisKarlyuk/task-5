@@ -4,15 +4,24 @@ import { ratingCount } from '../util/reqParse';
 export default class Left extends Component {
   constructor(props) {
     super(props);
+    this.updateRank = this.updateRank.bind(this)
     this.state = {
       idRank: '',
       clientRank: 'none'
     }
   }
 
+  componentWillMount() {
+    this.updateRank(this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
     if(nextProps.rank===this.props.rank) return;
-    let newRank = nextProps.rank.find((x)=>
+    this.updateRank(nextProps);
+  }
+
+  updateRank(rank) {
+    let newRank = rank.rank.find((x)=>
       (x.clientId===this.props.clientId)
     );
     if(!newRank) return;

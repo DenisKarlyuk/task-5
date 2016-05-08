@@ -50,7 +50,8 @@ function mapStateToProps(state) {
     page: state.page,
     pages: state.pages,
     rank: state.rank||[],
-    comment: state.comment||[]
+    comment: state.comment||[],
+    clientId: state.clientId
   };
 }
 
