@@ -19,7 +19,7 @@ export default function (state, action) {
     };
   case 'LOADING_ERROR':
     return {...state,
-      error: action.text,
+      error: action.error,
       loading: 'none'
     };
   case 'LOADED_RANK':
@@ -36,7 +36,7 @@ export default function (state, action) {
     };
   case 'SET_COOKIE':
       return {...state,
-      clientId: action.cookie
+      clientId: action.clientId
     }
   default:
     return state;

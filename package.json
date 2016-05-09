@@ -4,7 +4,8 @@
   "description": "MovieDB",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node index.js"
   },
   "author": "Denis",
   "license": "MIT",

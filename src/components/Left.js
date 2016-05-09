@@ -24,6 +24,12 @@ export default class Left extends Component {
     let newRank = rank.rank.find((x)=>
       (x.clientId===this.props.clientId)
     );
+    if(this.state.clientRank) {
+      this.setState({
+        idRank: '',
+        clientRank: 'none'
+      });
+    }
     if(!newRank) return;
     this.setState({
       clientRank: newRank.rank,

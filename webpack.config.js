@@ -1,8 +1,12 @@
 var path = require('path')
 var webpack = require('webpack')
 
+const NODE_ENV = process.env.NODE_ENV;
+
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: NODE_ENV=='development'
+    ? 'cheap-module-eval-source-map'
+    : null,
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
@@ -15,7 +19,10 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      NODE_ENV: JSON.stringify(NODE_ENV)
+    })
   ],
   module: {
     preLoaders: [

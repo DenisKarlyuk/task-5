@@ -17,9 +17,7 @@ if(!store.getState().clientId){
 
 render(
   <Provider store={store}>
-    <div className="react">
-      <App/>
-    </div>
+    <App/>
   </Provider>,
   document.getElementById('root')
 );

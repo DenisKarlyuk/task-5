@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
-export function cookie(cookie) {
+export function cookie(clientId) {
   return {
     type: 'SET_COOKIE',
-    cookie
+    clientId
   };
 }
 
@@ -23,10 +23,10 @@ function getList(list, url, page, pages) {
   };
 }
 
-function reqError(text) {
+function reqError(error) {
   return {
     type: 'LOADING_ERROR',
-    text
+    error
   };
 }
 

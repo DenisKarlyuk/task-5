@@ -92,9 +92,7 @@ app.get('/*', (req, res)=> {
 
     const initialView = renderToString(
       <Provider store={ store }>
-        <div className="react">
-          <App />
-        </div>
+        <App />
       </Provider>
     );
 
