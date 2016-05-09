@@ -10,6 +10,9 @@
   "author": "Denis",
   "license": "MIT",
   "devDependencies": {
+
+  },
+  "dependencies": {
     "babel-core": "^6.4.5",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.1",
@@ -28,9 +31,7 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.12.12",
     "webpack-dev-middleware": "^1.5.1",
-    "webpack-hot-middleware": "^2.6.4"
-  },
-  "dependencies": {
+    "webpack-hot-middleware": "^2.6.4",
     "babel-polyfill": "^6.3.14",
     "babel-runtime": "^6.3.19",
     "isomorphic-fetch": "^2.2.1",
