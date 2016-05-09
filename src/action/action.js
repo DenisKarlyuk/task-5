@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-fetch';
 
+const PORT = process.env.PORT || 3300;
+
 export function cookie(clientId) {
   return {
     type: 'SET_COOKIE',
@@ -33,7 +35,7 @@ function reqError(error) {
 export function apiRequest(url) {
   return (dispatch)=> {
     dispatch(reqStart());
-    return fetch(`http://localhost:3300/api/movie/${url}`)
+    return fetch(`http://localhost:${PORT}/api/${url}`)
       .then((resp) => resp.json())
       .then((json) => {
         if(!json.total_pages) json.total_pages = 0;
@@ -59,7 +61,7 @@ function rank(rank) {
 
 export function apiDb(id) {
   return (dispatch)=> {
-    return fetch(`http://localhost:3300/api/db/${id}`)
+    return fetch(`http://localhost:${PORT}/api/db/${id}`)
       .then((resp) => resp.json())
       .then((json) => dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json)))
       .catch((text)=> dispatch(reqError(text)));
@@ -75,7 +77,7 @@ function postComment(comment) {
 
 export function postDb(url, body) {
   return (dispatch)=> {
-    return fetch(`http://localhost:3300/api/db/${url}?`, {
+    return fetch(`http://localhost:${PORT}/api/db/${url}?`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -89,9 +91,9 @@ export function postDb(url, body) {
   };
 }
 
-export function updateRankDb(url, body, id) {
+export function updateRankDb(query, body, id) {
   return (dispatch)=> {
-    return fetch(`http://localhost:3300/api/db/rank?${url}&`, {
+    return fetch(`http://localhost:${PORT}/api/db/rank?${query}&`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

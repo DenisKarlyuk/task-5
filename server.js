@@ -27,10 +27,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/static'));
 
-app.put('/api/db/*', (req, res)=> {
-  let urlPutDb = req.url.slice(8);
-  let url = `https://api.mlab.com/api/1/databases/movie/collections/${urlPutDb}${API_DB}`;
-  let body = {
+app.put('/api/db/rank', (req, res)=> {
+  let url = `https://api.mlab.com/api/1/databases/movie/collections/rank?q=${req.query.q}&${API_DB}`;
+  let options = {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -38,13 +37,12 @@ app.put('/api/db/*', (req, res)=> {
       },
       body: JSON.stringify(req.body)
     };
-  postPutApi(url, body, res);
+  postPutApi(url, options, res);
 });
 
-app.post('/api/db/*', (req, res)=> {
-  let urlPostDb = req.url.slice(8);
-  let url = `https://api.mlab.com/api/1/databases/movie/collections/${urlPostDb}${API_DB}`;
-  let body = {
+app.post('/api/db/rank', (req, res)=> {
+  let url = `https://api.mlab.com/api/1/databases/movie/collections/rank?q=${req.query.q}&${API_DB}`;
+  let options = {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -52,18 +50,47 @@ app.post('/api/db/*', (req, res)=> {
     },
     body: JSON.stringify(req.body)
   };
-  postPutApi(url, body, res);
+  postPutApi(url, options, res);
 });
 
-app.get('/api/db/*', (req, res)=> {
-  let urlDb = req.url.slice(8);
-  let url = `https://api.mlab.com/api/1/databases/movie/collections/${urlDb}${API_DB}`
+app.post('/api/db/comment', (req, res)=> {
+  let url = `https://api.mlab.com/api/1/databases/movie/collections/comment?q=${req.query.q}&${API_DB}`;
+  let options = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body)
+  };
+  postPutApi(url, options, res);
+});
+
+app.get('/api/db/rank', (req, res)=> {
+  let url = `https://api.mlab.com/api/1/databases/movie/collections/rank?q=${req.query.q}&${API_DB}`;
   getApi(url, res);
 });
 
-app.get('/api/movie/*', (req, res)=> {
-  let urlMovie = req.url.slice(11);
-  let url = `http://api.themoviedb.org/3/${urlMovie}${API_MOVIE}`;
+app.get('/api/db/comment', (req, res)=> {
+  let url = `https://api.mlab.com/api/1/databases/movie/collections/comment?q=${req.query.q}&${API_DB}`;
+  getApi(url, res);
+});
+
+app.get('/api/movie/:id', (req, res)=> {
+  let url = `http://api.themoviedb.org/3/movie/${req.params.id}?${API_MOVIE}`;
+  if(Number.isInteger(+req.params.id)) {
+    url += `&append_to_response=${req.query.append_to_response}`;
+  }
+  getApi(url, res);
+});
+
+app.get('/api/person/:id', (req, res)=> {
+  let url = `http://api.themoviedb.org/3/person/${req.params.id}&${API_MOVIE}`;
+  getApi(url, res);
+});
+
+app.get('/api/search/:id', (req, res)=> {
+  let url = `http://api.themoviedb.org/3/search/${req.params.id}?query=${req.query.query}&${API_MOVIE}`;
   getApi(url, res);
 });
 
@@ -74,20 +101,19 @@ function getApi(url, res) {
     .catch((text)=> res.send(text));
 }
 
-function postPutApi(url, body, res) {
-  fetch(url, body)
+function postPutApi(url, options, res) {
+  fetch(url, options)
     .then(()=> res.send());
 }
 
 app.get('/*', (req, res)=> {
-  let url = req.url.slice(1)+'&';
-  if(!(/\?/).test(url)) url = url.slice(0, -1)+'?';
-  if(url.length===1) url = 'movie/top_rated?';
+  let url = req.originalUrl;
+  if(!url.length) url = 'movie/top_rated';
   const store = configStore({
     clientId: req.cookies.clientId
   });
+  console.log(url);
   const idMovie = requestDb(url);
-
   function renderView(req, res, next) {
 
     const initialView = renderToString(
@@ -103,6 +129,7 @@ app.get('/*', (req, res)=> {
           <head>
             <meta charset="utf-8" />
             <title>MovieDb</title>
+            <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
           </head>
           <body>

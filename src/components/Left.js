@@ -56,8 +56,8 @@ export default class Left extends Component {
       let updateRank = {
         'rank': ''+e.target.id
       };
-      let url = `q={"_id":{"$oid": "${this.state.idRank._id.$oid}"}}`
-      this.props.updateRankDb(url, updateRank, id);
+      let query = `q={"_id":{"$oid": "${this.state.idRank._id.$oid}"}}`
+      this.props.updateRankDb(query, updateRank, id);
     }
   }
 
