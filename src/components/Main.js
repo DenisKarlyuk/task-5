@@ -13,10 +13,10 @@ export default class Main extends Component {
 
   onClickPoster(arg) {
     if(arg[1][0]==='m') {
-      this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos&`);
+      this.props.request(`${arg[1]}/${arg[0]}?append_to_response=credits,videos`);
     }
     else {
-      this.props.request(`${arg[1]}/${arg[0]}/combined_credits?`);
+      this.props.request(`${arg[1]}/${arg[0]}/combined_credits`);
     }
   }
 
@@ -31,7 +31,7 @@ export default class Main extends Component {
     if(!events || events===this.props.page
                || events>this.props.pages) return;
     let url = this.props.url.replace(/page=.+/, '');
-    this.props.request(`${url}page=${events}&`);
+    this.props.request(`${url}page=${events}`);
   }
 
   onChangeInput(e) {

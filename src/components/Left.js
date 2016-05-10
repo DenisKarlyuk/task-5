@@ -38,7 +38,7 @@ export default class Left extends Component {
   }
 
   onClickGenr(e) {
-    this.props.request(`genre/${e.target.id}/movies?`);
+    this.props.request(`genre/${e.target.id}/movies`);
   }
 
   onClickPostDbRank(e) {

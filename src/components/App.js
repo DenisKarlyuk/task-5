@@ -13,10 +13,10 @@ request (url, events) {
   const idDb = requestDb(url);
   if(url===this.props.url) return;
   if(!events===true)
-    history.pushState({url: url}, null, `/${url.slice(0, -1)}`);
+    history.pushState({url: url}, null, `/${url}`);
   if(idDb) {
-    this.props.reqDb(`rank?q={"id": ${idDb[0]}}&`);
-    this.props.reqDb(`comment?q={"id":"${idDb[0]}"}&`);
+    this.props.reqDb(`rank?q={"id": ${idDb[0]}}`);
+    this.props.reqDb(`comment?q={"id":"${idDb[0]}"}`);
   }
   this.props.requestApi(url);
   document.body.scrollTop = 0;
@@ -24,7 +24,7 @@ request (url, events) {
 
 componentDidMount() {
   if(!history.state)
-    history.replaceState({url: this.props.url}, null, `/${this.props.url.slice(0, -1)}`);
+    history.replaceState({url: this.props.url}, null, `/${this.props.url}`);
 
   window.onpopstate = (e)=> this.request(e.state.url, true);
 }

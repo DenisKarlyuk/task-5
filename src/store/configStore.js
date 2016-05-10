@@ -1,5 +1,5 @@
 
-if((process.env.NODE_ENV||NODE_ENV)=='production') {
+if(process.env.NODE_ENV==='prod') {
   module.exports = require('./configureStore.prod')
 }
 else {

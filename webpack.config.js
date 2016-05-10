@@ -4,7 +4,7 @@ var webpack = require('webpack')
 const NODE_ENV = process.env.NODE_ENV;
 
 module.exports = {
-  devtool: NODE_ENV=='development'
+  devtool: NODE_ENV=='dev'
     ? 'cheap-module-eval-source-map'
     : null,
   entry: [

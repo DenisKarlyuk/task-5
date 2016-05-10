@@ -5,10 +5,10 @@ export default class Search extends Component {
 
   onClickGenr(e) {
     if(+e.target.id) {
-      this.props.request(`genre/${e.target.id}/movies?`);
+      this.props.request(`genre/${e.target.id}/movies`);
     }
     else {
-      this.props.request(`movie/${e.target.id}?`);
+      this.props.request(`movie/${e.target.id}`);
     }
   }
 

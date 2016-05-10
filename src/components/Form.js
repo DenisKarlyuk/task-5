@@ -12,7 +12,7 @@ export default class Form extends Component {
     e.preventDefault();
     let value = e.target.search.value;
     if(!value) return;
-    let input = `search/${this.state.search}?query=${value}&`.trim();
+    let input = `search/${this.state.search}?query=${value}`.trim();
     this.props.request(input);
     e.target.search.value = '';
   }
