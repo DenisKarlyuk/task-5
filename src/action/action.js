@@ -1,6 +1,5 @@
-import fetch from 'isomorphic-fetch';
 import props from '../../config/conf';
-console.log(props['express.api.url']);
+
 export function cookie(clientId) {
   return {
     type: 'SET_COOKIE',
@@ -34,7 +33,7 @@ function reqError(error) {
 export function apiRequest(url) {
   return (dispatch)=> {
     dispatch(reqStart());
-    return fetch(`${props['express.api.url']}/${url}`)
+    return fetch(`${props['express.api.url']}/moviedb/${url}`)
       .then((resp) => resp.json())
       .then((json) => {
         if(!json.total_pages) json.total_pages = 0;
@@ -60,7 +59,7 @@ function rank(rank) {
 
 export function apiDb(id) {
   return (dispatch)=> {
-    return fetch(`${props['express.api.url']}/db/${id}`)
+    return fetch(`${props['express.api.url']}/mlabdb/${id}`)
       .then((resp) => resp.json())
       .then((json) => dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json)))
       .catch((text)=> dispatch(reqError(text)));
@@ -76,7 +75,7 @@ function postComment(comment) {
 
 export function postDb(url, body) {
   return (dispatch)=> {
-    return fetch(`${props['express.api.url']}/db/${url}?`, {
+    return fetch(`${props['express.api.url']}/mlabdb/${url}?`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -92,7 +91,7 @@ export function postDb(url, body) {
 
 export function updateRankDb(query, body, id) {
   return (dispatch)=> {
-    return fetch(`${props['express.api.url']}/db/rank?${query}&`, {
+    return fetch(`${props['express.api.url']}/mlabdb/rank?${query}&`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
