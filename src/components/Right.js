@@ -19,7 +19,7 @@ export default class Right extends Component {
     const no = <p>No information</p>;
     let iframe = parse.videos.results.length
       ? <iframe src={
-          `http://www.youtube.com/embed/${(parse.videos.results[1]
+          `https://www.youtube.com/embed/${(parse.videos.results[1]
           || parse.videos.results[0]).key}?&modestbranding=1&showinfo=0`
         }
         allowFullScreen="allowfullscreen" frameBorder="0"/>
