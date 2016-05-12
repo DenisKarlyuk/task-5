@@ -17,10 +17,10 @@ export default class Right extends Component {
   render() {
     let parse = this.props.list;
     const no = <p>No information</p>;
-    let iframe = parse.videos.results.length
+    let trailer =  parse.videos.results[1] || parse.videos.results[0] || false;
+    let iframe = trailer
       ? <iframe src={
-          `https://www.youtube.com/embed/${(parse.videos.results[1]
-          || parse.videos.results[0]).key}?&modestbranding=1&showinfo=0`
+          `https://www.youtube.com/embed/${trailer.key}?&modestbranding=1&showinfo=0`
         }
         allowFullScreen="allowfullscreen" frameBorder="0"/>
       :'';
