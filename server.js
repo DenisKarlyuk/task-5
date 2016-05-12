@@ -4,7 +4,6 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-//import props from './config/conf.conf';
 import config from './webpack.config';
 import { renderToString } from 'react-dom/server';
 import cookieParser from 'cookie-parser';

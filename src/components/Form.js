@@ -10,9 +10,9 @@ export default class Form extends Component {
 
   onClickBut(e) {
     e.preventDefault();
-    let value = e.target.search.value;
+    let value = e.target.search.value.trim();
     if(!value) return;
-    let input = `search/${this.state.search}?query=${value}`.trim();
+    let input = `search/${this.state.search}?query=${value}`;
     this.props.request(input);
     e.target.search.value = '';
   }

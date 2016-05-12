@@ -30,8 +30,8 @@ export default class Main extends Component {
     }
     if(!events || events===this.props.page
                || events>this.props.pages) return;
-    let url = this.props.url.replace(/page=.+/, '');
-    this.props.request(`${url}page=${events}`);
+    let url = this.props.url.replace(/\?page=.+/, '');
+    this.props.request(`${url}?page=${events}`);
   }
 
   onChangeInput(e) {
@@ -53,7 +53,7 @@ export default class Main extends Component {
 
 //переключение страниц
     let arrPage = new Array(pages<8 ? pages : 7)
-     .fill(page<5 ? 1 : page+7>pages
+     .fill(page<5 ? 1 : page+4>pages
                   ? pages-6
                   : page-3).map((x, ind)=> {
       x = x+ind;
