@@ -1,9 +1,10 @@
 import express from 'express';
 import props from '../config/conf';
+import key from '../config/keys.conf';
 
 const router = express.Router();
 const MLAB_DB_URL = props['mlab.db.url'];
-const MLAB_DB_KEY = `apiKey=${props['mlab.db.key']}`;
+const MLAB_DB_KEY = `apiKey=${key['mlab.db.key']}`;
 
 router.use('/:collection', (req, res, next)=> {
   req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;

@@ -1,9 +1,10 @@
 import express from 'express';
 import props from '../config/conf';
+import key from '../config/keys.conf';
 
 const router = express.Router();
 const MOVIEDB_URL = props['moviedb.url'];
-const MOVIEDB_KEY = `api_key=${props['moviedb.key']}`;
+const MOVIEDB_KEY = `api_key=${key['moviedb.key']}`;
 
 router.get('/person/:id/combined_credits', (req, res)=> {
   let url = `/person/${req.params.id}/combined_credits?`;
