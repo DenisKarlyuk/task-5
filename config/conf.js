@@ -1,6 +1,2 @@
-if(process.env.NODE_ENV==='prod') {
-  module.exports = require('./prod.conf')
-}
-else {
-  module.exports = require('./dev.conf')
-}
+const ENV = process.env.NODE_ENV||NODE_ENV;
+module.exports = require('./'+ENV+'.conf');
