@@ -41,37 +41,43 @@ export default class Left extends Component {
     this.props.request(`genre/${e.target.id}/movies`);
   }
 
-  onClickPostDbRank(e) {
+  onClickRank(e) {
     e.preventDefault();
     const id = this.props.list.id;
     if(this.state.clientRank==='none') {
-      let reqArg = ['rank', {
-        id: id,
-        clientId: this.props.clientId,
-        rank: e.target.id
-      }];
-      this.props.postDb(reqArg[0], reqArg[1]);
+      const options = {
+        collection: 'rank',
+        body: {
+          id: id,
+          clientId: this.props.clientId,
+          rank: e.target.id
+        }
+      };
+      this.props.postDb(options.collection, options.body);
     }
     else {
-      let updateRank = {
+      let body = {
         'rank': ''+e.target.id
       };
       let query = `q={"_id":{"$oid": "${this.state.idRank._id.$oid}"}}`
-      this.props.updateRankDb(query, updateRank, id);
+      this.props.updateRankDb(query, body, id);
     }
   }
 
-  onClickPostDbComment(e) {
+  onClickComment(e) {
     e.preventDefault();
-    let reqArg = ['comment', {
-      id: e.target.id,
-      name: e.target.name.value,
-      comment: e.target.comment.value,
-      data: new Date().toUTCString()
-    }];
+    const options = {
+      collection: 'comment',
+      body: {
+        id: e.target.id,
+        name: e.target.name.value,
+        comment: e.target.comment.value,
+        data: new Date().toUTCString()
+      }
+    };
     e.target.name.value = '';
     e.target.comment.value = '';
-    this.props.postDb(reqArg[0], reqArg[1]);
+    this.props.postDb(options.collection, options.body);
   }
 
   render() {
@@ -111,7 +117,7 @@ export default class Left extends Component {
       <div className = "left">
         <img src = {src}/>
         <div className="rating empty"
-          onClick={::this.onClickPostDbRank}>
+          onClick={::this.onClickRank}>
           {star}
         </div>
         <div className="rating full" style={{width: rank[2]}}>
@@ -129,7 +135,7 @@ export default class Left extends Component {
         <p>Genres: {genres}</p>
         <p>Runtime: {parse.runtime||'-'} min.</p>
         <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
-          <form id={parse.id} onSubmit={::this.onClickPostDbComment}>
+          <form id={parse.id} onSubmit={::this.onClickComment}>
             <p style={{color:'#52db52'}}>WRITE A REWIEW:</p>
             <p>Name:</p>
             <input type="text" defaultValue="" name="name" required/>

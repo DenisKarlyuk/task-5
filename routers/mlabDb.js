@@ -7,8 +7,7 @@ const MLAB_DB_URL = props['mlab.db.url'];
 const MLAB_DB_KEY = `apiKey=${key['mlab.db.key']}`;
 
 router.use('/:collection', (req, res, next)=> {
-  req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;
-  console.log(`--start--\nMethod: ${req.method}\nUrl: ${req.createUrl}\nBody: ${JSON.stringify(req.body)}\n--end--`);
+  req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;  
   next();
 });
 

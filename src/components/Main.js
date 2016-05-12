@@ -53,7 +53,8 @@ export default class Main extends Component {
 
 //переключение страниц
     let arrPage = new Array(pages<8 ? pages : 7)
-     .fill(page<5 ? 1 : page+4>pages
+     .fill(page<5 ? 1
+                  : page+4>pages
                   ? pages-6
                   : page-3).map((x, ind)=> {
       x = x+ind;
@@ -66,6 +67,7 @@ export default class Main extends Component {
         </li>
       )
     });
+
     return (
       <main>
         <div className="list">

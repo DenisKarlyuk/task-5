@@ -25,8 +25,15 @@ app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/static'));
+app.use(logger)
 app.use('/api/moviedb', movieDb);
 app.use('/api/mlabdb', mlabDb);
+
+function logger(req, res, next) {
+  console.log(`--start--\n Method: ${req.method}
+  Url: ${req.originalUrl}\n Body: ${JSON.stringify(req.body)}\n--end--`)
+  next();
+}
 
 app.get('/*', (req, res)=> {
   let url = req.originalUrl.slice(1);
