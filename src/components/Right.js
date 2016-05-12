@@ -4,7 +4,7 @@ export default class Right extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classI: ['fa fa-angle-double-up','fa fa-angle-double-down']
+      classI: ['fa fa-angle-double-down','fa fa-angle-double-up']
     }
   }
 
