@@ -21,7 +21,7 @@
     "cookie-parser": "^1.4.1",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.1",
-    "eslint-plugin-react": "^3.16.1",
+    "eslint-plugin-react": "^3.16.1"
   },
   "dependencies": {
     "babel-core": "^6.4.5",
