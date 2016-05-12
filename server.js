@@ -51,6 +51,8 @@ app.get('/*', (req, res)=> {
             <meta charset="utf-8" />
             <title>MovieDb</title>
             <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+            <link rel="stylesheet" href="/styles/app.css">
+            <link rel="stylesheet" href="/styles/normalize.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
           </head>
           <body>

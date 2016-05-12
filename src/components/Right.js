@@ -4,7 +4,7 @@ export default class Right extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classI: ['none','']
+      classI: ['fa fa-angle-double-up','fa fa-angle-double-down']
     }
   }
 
@@ -63,15 +63,13 @@ export default class Right extends Component {
         <p>{parse.overview||no}</p>
         <h3>Cast</h3>
         <div className="cast" style={
-          {maxHeight: this.state.classI[0]==='none'
+          {maxHeight: this.state.classI[0]==='fa fa-angle-double-down'
                     ? '115px'
                     : ''
           }}>
           {cast}
         </div>
-        <i className={`${this.state.classI[0]} fa fa-angle-double-up`}
-          onClick={::this.onClickCastShow} aria-hidden="true"/>
-        <i className={`${this.state.classI[1]} fa fa-angle-double-down`}
+        <i className={this.state.classI[0]}
           onClick={::this.onClickCastShow} aria-hidden="true"/>
         <h3>Reviews</h3>
         <div className="comment">

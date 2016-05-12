@@ -38,9 +38,6 @@ module.exports = {
         loaders: ['react-hot', 'babel-loader'],
         include: [path.resolve(__dirname, 'src'),],
         plugins: ['transform-runtime'],
-      },{
-        test: /\.css$/,
-        loader: 'style-loader!css-loader'
       }
     ]
   }
