@@ -8,6 +8,7 @@ const MLAB_DB_KEY = `apiKey=${key['mlab.db.key']}`;
 
 router.use('/:collection', (req, res, next)=> {
   req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;
+  console.log(`--start--\nMethod: ${req.method}\nUrl: ${req.createUrl}\nBody: ${JSON.stringify(req.body)}\n--end--`);
   next();
 });
 
@@ -47,7 +48,7 @@ router.route('/:collection')
       .catch((text)=> res.status(500).send(text));
   }
 
-  function postPutApi(url, options, req, res) {
+  function postPutApi(options, req, res) {
     fetch(req.createUrl, options)
       .then(()=> res.send())
       .catch((text)=> res.status(500).send(text));

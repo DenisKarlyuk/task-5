@@ -9,7 +9,7 @@ import { renderToString } from 'react-dom/server';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { Provider } from 'react-redux';
-import configStore from './src/store/configStore';
+import configStore from './src/store/configureStore.prod';
 import { apiRequest, apiDb } from './src/action/action';
 import { reqGenres } from './src/action/server';
 import { requestDb } from './src/util/reqParse';
@@ -71,8 +71,6 @@ app.get('/*', (req, res)=> {
                       apiDb(`rank?q={"id": ${idMovie}}&`)];
     allDispatch = allDispatch.concat(dbDispatch);
   }
-
-  console.log(allDispatch[3]);
 
   Promise.all(allDispatch.map(store.dispatch))
     .then(renderView)
