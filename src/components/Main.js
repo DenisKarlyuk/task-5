@@ -23,7 +23,7 @@ export default class Main extends Component {
     const pages = this.props.pages;
     const page = this.props.page;
     let fillArr = page<5 ? 1 : page+4>pages
-                          ? pages-6 : page-3
+                         ? pages-6 : page-3;
 //переключение страниц
     let arrPage = new Array(pages<8 ? pages : 7)
      .fill(fillArr).map((x, ind)=> {

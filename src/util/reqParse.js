@@ -66,7 +66,7 @@ export function createUrl(type, id, call, query, url) {
   let option = {
     movie_main: `?append_to_response=credits,videos`,
     movie_search: '',
-    person_search: `/combined_credits`,
+    person_main: `/combined_credits`,
     genre_search: `/movies`,
     search_form: `?query=${query}`
   }
