@@ -31,11 +31,15 @@ function reqError(error) {
 }
 
 export function apiRequest(url) {
+
   return (dispatch)=> {
+
     dispatch(reqStart());
+
     return fetch(`${props['express.api.url']}/moviedb/${url}`)
       .then((resp) => resp.json())
       .then((json) => {
+
         if(!json.total_pages) {
           json.total_pages = 0;
         }
@@ -43,6 +47,7 @@ export function apiRequest(url) {
         dispatch(getList((json.results||json.cast||json), url,
           (json.page||0), (json.total_pages>1000 ? 1000 : json.total_pages)))
         })
+
       .catch((text)=> dispatch(reqError(text)));
   };
 }
@@ -61,11 +66,15 @@ function rank(rank) {
   };
 }
 
-export function apiDb(id) {
+export function apiDb(type, id) {
+  
+  let query = `q={"id": ${id}}`;
+
   return (dispatch)=> {
-    return fetch(`${props['express.api.url']}/mlabdb/${id}`)
+
+    return fetch(`${props['express.api.url']}/mlabdb/${type}?${query}}`)
       .then((resp) => resp.json())
-      .then((json) => dispatch(id.slice(0, 1)==='c' ? comment(json) : rank(json)))
+      .then((json) => dispatch(type==='rank' ? rank(json) : comment(json)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }
@@ -78,6 +87,7 @@ function postComment(comment) {
 }
 
 export function postDb(collection, id, clientId, value) {
+
   const body = {
     id: id,
     clientId: clientId,
@@ -86,35 +96,41 @@ export function postDb(collection, id, clientId, value) {
   };
 
   return (dispatch)=> {
+
     return fetch(`${props['express.api.url']}/mlabdb/${collection}?`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+
       .then(()=>
         collection==='comment' ? dispatch(postComment(body))
-                               : dispatch(apiDb(`rank?q={"id": ${body.id}}&`)))
+                               : dispatch(apiDb('rank', body.id)))
+
       .catch((text)=> dispatch(reqError(text)));
   };
 }
 
 export function updateRankDb(idDB, rank, id) {
+
   let body = {'value': rank};
   let query = `q={"_id":{"$oid": "${idDB}"}}`;
 
   return (dispatch)=> {
+
     return fetch(`${props['express.api.url']}/mlabdb/rank?${query}&`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'$set': body})
-    })
-      .then(()=> dispatch(apiDb(`rank?q={"id": ${id}}&`)))
+        body: JSON.stringify({'$set': body})
+      })
+
+      .then(()=> dispatch(apiDb('rank', id)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }

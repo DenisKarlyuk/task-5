@@ -12,7 +12,6 @@ import { Provider } from 'react-redux';
 import configStore from './src/store/configureStore.prod';
 import { apiRequest, apiDb } from './src/action/action';
 import { reqGenres } from './src/action/server';
-import { requestDb } from './src/util/reqParse';
 import App from './src/components/App';
 import movieDb from './routers/movieDb'
 import mlabDb from './routers/mlabDb'
@@ -30,17 +29,31 @@ app.use('/api/moviedb', movieDb);
 app.use('/api/mlabdb', mlabDb);
 
 app.get('/*', (req, res)=> {
-  let url = req.originalUrl.slice(1);
 
-  if(!url.length) {
-    url = 'movie/top_rated';
-  }
+  let url = req.originalUrl.slice(1);
+  let allDispatch = [reqGenres(), apiRequest(url)];
+  let idMovie = url.match(/\d+/);
 
   const store = configStore({
     clientId: req.cookies.clientId
   });
 
-  let idMovie = requestDb(url);
+  if(!url.length) {
+    url = 'movie/top_rated';
+  }
+
+  if(idMovie!==null) {
+    
+    let dbDispatch = [apiDb(`comment?q={"id": "${idMovie}"}&`),
+                      apiDb(`rank?q={"id": ${idMovie}}&`)];
+
+    allDispatch = allDispatch.concat(dbDispatch);
+  }
+
+  Promise.all(allDispatch.map(store.dispatch))
+    .then(renderView)
+    .then((html)=> res.end(html))
+    .catch((error)=> {console.log(error);return res.status(404).send('404')});
 
   function renderView(req, res, next) {
 
@@ -73,20 +86,6 @@ app.get('/*', (req, res)=> {
 
       return html;
     }
-
-  let allDispatch = [reqGenres(), apiRequest(url)];
-
-  if(idMovie) {
-    let dbDispatch = [apiDb(`comment?q={"id": "${idMovie}"}&`),
-                      apiDb(`rank?q={"id": ${idMovie}}&`)];
-
-    allDispatch = allDispatch.concat(dbDispatch);
-  }
-
-  Promise.all(allDispatch.map(store.dispatch))
-    .then(renderView)
-    .then((html)=> res.end(html))
-    .catch((error)=> {console.log(error);return res.status(404).send('404')});
 });
 
 function logger(req, res, next) {

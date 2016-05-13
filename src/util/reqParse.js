@@ -46,21 +46,30 @@ export function ratingCount(voteAverage, voteCount, votes) {
   }
 
   //вычисление ширины блока рейтинга, (5)- корректировка ширины
-  let widthRating = (208/100)*((sumVoteAverage||0)*10)+5;
+  let calcWidthRating = (208/100)*((sumVoteAverage||0)*10)+5;
 
   return {
     voteCount: sumVoteCount,
     voteAverage: sumVoteAverage,
-    widthRating: widthRating
+    widthRating: calcWidthRating
   };
 }
 
-export function requestDb(url) {
-  const requestDb = (/movie\/\d+\?.+/).test(url);
+export function createUrl(type, id, call, query, url) {
 
-  if(requestDb) {
-    return url.match(/\d+/);
+  if(type==='page') {
+    let clearUrl = url.replace(/\?page=.+/, '');
+
+    return `${clearUrl}?page=${query}`;
   }
 
-  return false;
+  let option = {
+    movie_main: `?append_to_response=credits,videos`,
+    movie_search: '',
+    person_search: `/combined_credits`,
+    genre_search: `/movies`,
+    search_form: `?query=${query}`
+  }
+
+  return `${type}/${id}${option[type+'_'+call]}`;
 }

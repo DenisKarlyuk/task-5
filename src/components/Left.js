@@ -12,12 +12,12 @@ export default class Left extends Component {
   }
 
   componentWillMount() {
-    this.updateRank(this.props);
+    this.searhRatingClient(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.rank===this.props.rank) return;
-    this.updateRank(nextProps);
+    this.searhRatingClient(nextProps);
   }
 
   render() {
@@ -61,7 +61,7 @@ export default class Left extends Component {
       <div className = "left">
         <img src = {src}/>
         <div className="rating empty"
-          onClick={this.state.clientRank==='none' ? ::this.onClickPostDb
+          onClick={this.state.clientRank==='none' ? ::this.onClickPostDbRank
                                                   : ::this.onClickUpdateRank}>
           {stars}
         </div>
@@ -80,7 +80,7 @@ export default class Left extends Component {
         <p>Genres: {genres}</p>
         <p>Runtime: {parse.runtime||'-'} min.</p>
         <p>Budget: {`${budget.replace(/(\d)(?=(\d\d\d)+($))/g, '$1 ')}$`}</p>
-          <form onSubmit={::this.onClickPostDb}>
+          <form onSubmit={::this.onClickPostDbComment}>
             <p style={{color:'#52db52'}}>WRITE A REWIEW:</p>
             <p>Name:</p>
             <input type="text" defaultValue="" name="name" required/>
@@ -92,7 +92,7 @@ export default class Left extends Component {
     );
   }
 
-  updateRank(ranks) {
+  searhRatingClient(ranks) {
     if(this.state.clientRank) {
       this.setState({
         idRank: '',
@@ -113,11 +113,15 @@ export default class Left extends Component {
   }
 
   onClickGenre(e) {
-    this.props.request(`genre/${e.target.id}/movies`);
+    this.props.request('genre', e.target.id, 'search');
   }
 
   onClickUpdateRank(e) {
     e.preventDefault();
+
+    if(this.state.clientRank===e.target.id) {
+      return;
+    }
 
     let idMovie = this.props.list.id;
     let rank = ''+e.target.id;
@@ -126,19 +130,28 @@ export default class Left extends Component {
     this.props.updateRankDb(idDb, rank, idMovie);
   }
 
-  onClickPostDb(e) {
+  onClickPostDbRank(e) {
     e.preventDefault();
 
     let idMovie = this.props.list.id;
-    let collection = e.target.id ?'rank':'comment';
-    let clientId = e.target.id ? this.props.clientId : e.target.name.value;
-    let comment = e.target.id || e.target.comment.value;
+    let collection ='rank';
+    let clientId = this.props.clientId;
+    let comment = e.target.id
 
     this.props.postDb(collection, idMovie, clientId, comment);
+  }
 
-    if(e.target.name.value) {
-      e.target.name.value = '';
-      e.target.comment.value = '';
-    }
+  onClickPostDbComment(e) {
+    e.preventDefault();
+
+    let idMovie = this.props.list.id;
+    let collection = 'comment';
+    let name = e.target.name.value;
+    let comment = e.target.comment.value;
+
+    this.props.postDb(collection, idMovie, name, comment);
+
+    e.target.name.value = '';
+    e.target.comment.value = '';
   }
 }

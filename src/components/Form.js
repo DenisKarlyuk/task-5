@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Form extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -40,15 +40,18 @@ export default class Form extends Component {
 
   onClickBut(e) {
     e.preventDefault();
+
+    if(!e.target.search.value) return;
+
     let value = e.target.search.value.trim();
-    if(!value) return;
-    let input = `search/${this.state.search}?query=${value}`;
-    this.props.request(input);
+
+    this.props.request('search', this.state.search, 'form', value);
     e.target.search.value = '';
   }
 
   onClickSelect(e) {
     if(!e.target.value) return;
+    
     this.setState({
       search: e.target.value
     });

@@ -70,35 +70,26 @@ export default class Main extends Component {
     let id = arg[0];
     let type = arg[1];
 
-    if(type[0]==='m') {
-      this.props.request(`${type}/${id}?append_to_response=credits,videos`);
-    }
-    else {
-      this.props.request(`${type}/${id}/combined_credits`);
-    }
+    this.props.request(type, id, 'main');
   }
 
   onClickPage(e) {
     e.preventDefault();
 
-    let events = +e.target.text || +this.state.inputPage;
+    let numberPage = +e.target.text || +this.state.inputPage;
 
-    if(e.target.tagName==='FORM') {
-      this.setState({
-        inputPage: ''
-      });
-    }
+    this.setState({
+      inputPage: ''
+    });
 
-    if(!events || events===this.props.page
-               || events>this.props.pages) return;
+    if(!numberPage || numberPage===this.props.page
+                   || numberPage>this.props.pages) return;
 
-    let url = this.props.url.replace(/\?page=.+/, '');
-
-    this.props.request(`${url}?page=${events}`);
+    this.props.request('page', '', 'main', numberPage);
   }
 
   onChangeInput(e) {
-    if(!isFinite(e.target.value))return;
+    if(!isFinite(e.target.value)) return;
 
     this.setState({
       inputPage: e.target.value

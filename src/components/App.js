@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { requestDb } from '../util/reqParse';
+import { createUrl } from '../util/reqParse';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
@@ -11,7 +11,7 @@ class App extends Component {
 
 componentDidMount() {
   history.replaceState({url: this.props.url}, null, `/${this.props.url}`);
-  window.onpopstate = (e)=> this.request(e.state.url, true);
+  window.onpopstate = (e)=> this.props.requestApi(e.state.url);
 }
 
   render() {
@@ -24,16 +24,18 @@ componentDidMount() {
     );
   }
 
-  request (url, events) {
-    const idDb = requestDb(url);
+  request (type, id, call, query) {
+
+    let url = createUrl(type, id, call, query, this.props.url);
 
     if(url===this.props.url) return;
-    if(!events===true) {
-      history.pushState({url: url}, null, `/${url}`);
-    }
-    if(idDb) {
-      this.props.reqDb(`rank?q={"id": ${idDb[0]}}`);
-      this.props.reqDb(`comment?q={"id":"${idDb[0]}"}`);
+
+    history.pushState({url: url}, null, `/${url}`);
+
+    if(type==='movie' && call==='main') {
+      this.props.reqDb('rank', id);
+      this.props.reqDb('comment', id);
+
     }
 
     this.props.requestApi(url);

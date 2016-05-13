@@ -1,4 +1,9 @@
 import fetch from 'isomorphic-fetch';
+import props from '../../config/conf';
+import key from '../../config/keys.conf';
+
+const MOVIEDB_URL = props['moviedb.url'];
+const MOVIEDB_KEY = `api_key=${key['moviedb.key']}`;
 
 function getGenres(genres) {
   return {
@@ -9,7 +14,7 @@ function getGenres(genres) {
 
 export function reqGenres() {
   return dispatch => {
-    return fetch(`http://api.themoviedb.org/3/genre/movie/list?api_key=e0aa8ef5230330454d715945a0db3d27`)
+    return fetch(`${MOVIEDB_URL}/genre/movie/list?${MOVIEDB_KEY}`)
     .then((resp) => resp.json())
     .then((json) => dispatch(getGenres(json.genres)));
   };
