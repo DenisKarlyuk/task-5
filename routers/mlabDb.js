@@ -7,20 +7,22 @@ const MLAB_DB_URL = props['mlab.db.url'];
 const MLAB_DB_KEY = `apiKey=${key['mlab.db.key']}`;
 
 router.use('/:collection', (req, res, next)=> {
-  req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;  
+  req.createUrl = `${MLAB_DB_URL}/${req.params.collection}?${MLAB_DB_KEY}&q=${req.query.q}`;
   next();
 });
 
 router.route('/:collection')
+
   .put((req, res)=> {
     const options = {
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(req.body)
-      };
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(req.body)
+    };
+
     postPutApi(options, req, res);
   })
 
@@ -33,6 +35,7 @@ router.route('/:collection')
       },
       body: JSON.stringify(req.body)
     };
+
     postPutApi(options, req, res);
   })
 

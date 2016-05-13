@@ -1,27 +1,12 @@
 import React, { Component } from 'react';
 
 export default class Form extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       search: 'multi'
     }
-  }
-
-  onClickBut(e) {
-    e.preventDefault();
-    let value = e.target.search.value.trim();
-    if(!value) return;
-    let input = `search/${this.state.search}?query=${value}`;
-    this.props.request(input);
-    e.target.search.value = '';
-  }
-
-  onClickSelect(e) {
-    if(!e.target.value) return;
-    this.setState({
-      search: e.target.value
-    });
   }
 
   componentDidMount() {
@@ -51,5 +36,21 @@ export default class Form extends Component {
         </div>
       </form>
     );
+  }
+
+  onClickBut(e) {
+    e.preventDefault();
+    let value = e.target.search.value.trim();
+    if(!value) return;
+    let input = `search/${this.state.search}?query=${value}`;
+    this.props.request(input);
+    e.target.search.value = '';
+  }
+
+  onClickSelect(e) {
+    if(!e.target.value) return;
+    this.setState({
+      search: e.target.value
+    });
   }
 }

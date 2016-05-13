@@ -8,7 +8,8 @@ export default function configStore(initialState) {
   const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, logger));
+    applyMiddleware(thunk, logger)
+  );
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
@@ -16,5 +17,6 @@ export default function configStore(initialState) {
     store.replaceReducer(nextRootReducer);
     });
   }
+
   return store;
 }

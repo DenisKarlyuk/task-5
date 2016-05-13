@@ -29,19 +29,19 @@ app.use(logger)
 app.use('/api/moviedb', movieDb);
 app.use('/api/mlabdb', mlabDb);
 
-function logger(req, res, next) {
-  console.log(`--start--\n Method: ${req.method}
-  Url: ${req.originalUrl}\n Body: ${JSON.stringify(req.body)}\n--end--`)
-  next();
-}
-
 app.get('/*', (req, res)=> {
   let url = req.originalUrl.slice(1);
-  if(!url.length) url = 'movie/top_rated';
+
+  if(!url.length) {
+    url = 'movie/top_rated';
+  }
+
   const store = configStore({
     clientId: req.cookies.clientId
   });
-  const idMovie = requestDb(url);
+
+  let idMovie = requestDb(url);
+
   function renderView(req, res, next) {
 
     const initialView = renderToString(
@@ -70,6 +70,7 @@ app.get('/*', (req, res)=> {
               <script src="/static/bundle.js"></script>
           </body>
         </html>`
+
       return html;
     }
 
@@ -78,13 +79,21 @@ app.get('/*', (req, res)=> {
   if(idMovie) {
     let dbDispatch = [apiDb(`comment?q={"id": "${idMovie}"}&`),
                       apiDb(`rank?q={"id": ${idMovie}}&`)];
+
     allDispatch = allDispatch.concat(dbDispatch);
   }
 
   Promise.all(allDispatch.map(store.dispatch))
     .then(renderView)
     .then((html)=> res.end(html))
-    .catch((error)=> res.status(404).send('404'));
+    .catch((error)=> {console.log(error);return res.status(404).send('404')});
 });
+
+function logger(req, res, next) {
+  console.log(`--start--\n Method: ${req.method}
+  Url: ${req.originalUrl}\n Body: ${JSON.stringify(req.body)}\n--end--`);
+
+  next();
+}
 
 export default app;

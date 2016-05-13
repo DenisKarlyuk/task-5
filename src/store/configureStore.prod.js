@@ -7,5 +7,6 @@ export default function configStore(initialState) {
     rootReducer,
     initialState,
     applyMiddleware(thunk));
+
   return store;
 }

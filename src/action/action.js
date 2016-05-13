@@ -36,9 +36,13 @@ export function apiRequest(url) {
     return fetch(`${props['express.api.url']}/moviedb/${url}`)
       .then((resp) => resp.json())
       .then((json) => {
-        if(!json.total_pages) json.total_pages = 0;
-        dispatch(getList((json.results||json.cast||json),
-          url, (json.page||0), (json.total_pages>1000 ? 1000 : json.total_pages)))})
+        if(!json.total_pages) {
+          json.total_pages = 0;
+        }
+
+        dispatch(getList((json.results||json.cast||json), url,
+          (json.page||0), (json.total_pages>1000 ? 1000 : json.total_pages)))
+        })
       .catch((text)=> dispatch(reqError(text)));
   };
 }
@@ -73,23 +77,34 @@ function postComment(comment) {
   };
 }
 
-export function postDb(url, body) {
+export function postDb(collection, id, clientId, value) {
+  const body = {
+    id: id,
+    clientId: clientId,
+    value: value,
+    data: new Date().toUTCString()
+  };
+
   return (dispatch)=> {
-    return fetch(`${props['express.api.url']}/mlabdb/${url}?`, {
+    return fetch(`${props['express.api.url']}/mlabdb/${collection}?`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)})
-      .then(()=> url==='comment'
-          ? dispatch(postComment(body))
-          : dispatch(apiDb(`rank?q={"id": ${body.id}}&`)))
+      body: JSON.stringify(body)
+    })
+      .then(()=>
+        collection==='comment' ? dispatch(postComment(body))
+                               : dispatch(apiDb(`rank?q={"id": ${body.id}}&`)))
       .catch((text)=> dispatch(reqError(text)));
   };
 }
 
-export function updateRankDb(query, body, id) {
+export function updateRankDb(idDB, rank, id) {
+  let body = {'value': rank};
+  let query = `q={"_id":{"$oid": "${idDB}"}}`;
+
   return (dispatch)=> {
     return fetch(`${props['express.api.url']}/mlabdb/rank?${query}&`, {
       method: 'PUT',
@@ -97,7 +112,8 @@ export function updateRankDb(query, body, id) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'$set': body})})
+      body: JSON.stringify({'$set': body})
+    })
       .then(()=> dispatch(apiDb(`rank?q={"id": ${id}}&`)))
       .catch((text)=> dispatch(reqError(text)));
   };

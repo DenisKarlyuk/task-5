@@ -35,8 +35,8 @@ export default function (state, action) {
       comment: state.comment.concat([action.comment])
     };
   case 'SET_COOKIE':
-      return {...state,
-      clientId: action.clientId
+    return {...state,
+    clientId: action.clientId
     }
   default:
     return state;

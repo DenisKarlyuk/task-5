@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Right extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -8,51 +9,48 @@ export default class Right extends Component {
     }
   }
 
-  onClickCastShow() {
-    this.setState({
-      classI: this.state.classI.reverse()
-    });
-  }
-
   render() {
+    const no = 'No information';
     let parse = this.props.list;
-    const no = <p>No information</p>;
-    let trailer =  parse.videos.results[1] || parse.videos.results[0] || false;
-    let iframe = trailer
-      ? <iframe src={
-          `https://www.youtube.com/embed/${trailer.key}?&modestbranding=1&showinfo=0`
-        }
-        allowFullScreen="allowfullscreen" frameBorder="0"/>
-      :'';
-    let comments = this.props.comment.length
-      ? this.props.comment.reverse().map((x)=>
-          <div key={x.data}>
-            <p>A review by {x.name}</p>
-            <p>{x.comment}</p>
-            <p>{x.data}</p>
-          </div>)
-      : (<p>No review</p>);
-    let cast = parse.credits.cast.length
-      ? parse.credits.cast.map((x)=> {
-        let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185' + x.profile_path
-      : '/img/no.png';
+    let comments = <p>No review</p>;
+    let cast = no;
+    let trailer = parse.videos.results[1] || parse.videos.results[0] || '';
 
-      return (
-        <figure key = {x.id} onClick={this.props.clickPoster.bind(this, [x.id, 'person'])}>
-          <img src = {src}/>
-            <figcaption>
-              <p>{x.name}</p>
-              <p>as</p>
-              <p>{x.character}</p>
-            </figcaption>
-          </figure>
-        );
-      })
-    : no;
+    if(trailer) {
+      trailer = <iframe src={
+        `https://www.youtube.com/embed/${trailer.key}?&modestbranding=1&showinfo=0`
+        } allowFullScreen="allowfullscreen" frameBorder="0"/>;
+    }
+
+    if(this.props.comment.length) {
+      comments = this.props.comment.reverse().map((x)=>
+        <div key={x.data}>
+          <p>A review by {x.clientId}</p>
+          <p>{x.value}</p>
+          <p>{x.data}</p>
+        </div>)
+    }
+
+    if(parse.credits.cast.length) {
+      cast = parse.credits.cast.map((x)=> {
+        let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185'+x.profile_path
+                                 : '/img/no.png';
+        return (
+          <figure key = {x.id} onClick={this.props.clickPoster.bind(this,[x.id, 'person'])}>
+            <img src = {src}/>
+              <figcaption>
+                <p>{x.name}</p>
+                <p>as</p>
+                <p>{x.character}</p>
+              </figcaption>
+            </figure>
+          );
+      });
+    }
 
     return (
       <div className="right">
-        {iframe}
+        {trailer}
         <h2>
           {parse.title}
           <span id="span">
@@ -63,10 +61,7 @@ export default class Right extends Component {
         <p>{parse.overview||no}</p>
         <h3>Cast</h3>
         <div className="cast" style={
-          {maxHeight: this.state.classI[0]==='fa fa-angle-double-down'
-                    ? '115px'
-                    : ''
-          }}>
+          {maxHeight: this.state.classI[0]==='fa fa-angle-double-down'?'115px':''}}>
           {cast}
         </div>
         <i className={this.state.classI[0]}
@@ -77,5 +72,11 @@ export default class Right extends Component {
         </div>
     </div>
     );
+  }
+
+  onClickCastShow() {
+    this.setState({
+      classI: this.state.classI.reverse()
+    });
   }
 }

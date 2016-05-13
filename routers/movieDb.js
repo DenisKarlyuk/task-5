@@ -22,7 +22,7 @@ router.get('/genre/:id/movies', (req, res)=> {
 });
 
 router.get('/movie/:id', (req, res)=> {
-  let url = `/movie/${req.params.id}?`;
+  let url = `/movie/${req.params.id}?`;  
   new getApi(url, res, req);
   });
 
@@ -32,12 +32,15 @@ router.use((req,res)=> {
 
   function getApi(url, res, req) {
     this.url = MOVIEDB_URL+url+MOVIEDB_KEY;
+
     if(req.query.page) this.url += `&page=${req.query.page}`;
     if(req.query.append_to_response) this.url += `&append_to_response=${req.query.append_to_response}`;
     if(req.query.query) this.url += `&query=${req.query.query}`;
+
     fetch(this.url)
       .then((response)=> response.json())
       .then((json)=> res.send(json))
       .catch((text)=> res.status(404).send(text));
   }
+
  export default router;
