@@ -31,6 +31,11 @@ app.use('/api/mlabdb', mlabDb);
 app.get('/*', (req, res)=> {
 
   let url = req.originalUrl.slice(1);
+
+  if(!url.length) {
+    url = 'movie/top_rated';
+  }
+
   let allDispatch = [reqGenres(), apiRequest(url)];
   let idMovie = url.match(/\d+/);
 
@@ -38,12 +43,8 @@ app.get('/*', (req, res)=> {
     clientId: req.cookies.clientId
   });
 
-  if(!url.length) {
-    url = 'movie/top_rated';
-  }
-
   if(idMovie!==null) {
-    
+
     let dbDispatch = [apiDb(`comment?q={"id": "${idMovie}"}&`),
                       apiDb(`rank?q={"id": ${idMovie}}&`)];
 
