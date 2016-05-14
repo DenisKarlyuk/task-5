@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createUrl } from '../util/parse';
+import { createUrl } from '../util/util';
 import Search from './Search';
 import Main from './Main';
 import Load from './Load';
