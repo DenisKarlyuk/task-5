@@ -45,8 +45,10 @@ app.get('/*', (req, res)=> {
 
   if(idMovie!==null) {
 
-    let dbDispatch = [apiDb(`comment?q={"id": "${idMovie}"}&`),
-                      apiDb(`rank?q={"id": ${idMovie}}&`)];
+    let dbDispatch = [
+      apiDb('comment', idMovie),
+      apiDb('rank', idMovie)
+    ];
 
     allDispatch = allDispatch.concat(dbDispatch);
   }
@@ -54,7 +56,7 @@ app.get('/*', (req, res)=> {
   Promise.all(allDispatch.map(store.dispatch))
     .then(renderView)
     .then((html)=> res.end(html))
-    .catch((error)=> {console.log(error);return res.status(404).send('404')});
+    .catch((error)=> res.status(500).send('500 Internal Server Error'));
 
   function renderView(req, res, next) {
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Left from './Left.js';
 import Right from './Right.js';
-import { parse } from '../util/reqParse';
+import { parse } from '../util/parse';
 
 export default class Main extends Component {
 
@@ -13,12 +13,21 @@ export default class Main extends Component {
   }
 
   render() {
-    let readyPage = (/movie\/\d+.+/).test(this.props.url)
-      ? (<div className = "details">
+    let readyPage;
+
+    if ((/movie\/\d+.+/).test(this.props.url)) {
+
+      readyPage = (
+        <div className = "details">
           <Left {...this.props}/>
           <Right {...this.props} clickPoster={this.onClickPoster}/>
-        </div>)
-      : parse.call(this, this.props.list)
+        </div>
+      );
+    }
+    else {
+
+      readyPage = parse.call(this, this.props.list);
+    }
 
     const pages = this.props.pages;
     const page = this.props.page;

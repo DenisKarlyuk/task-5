@@ -67,7 +67,7 @@ function rank(rank) {
 }
 
 export function apiDb(type, id) {
-  
+
   let query = `q={"id": ${id}}`;
 
   return (dispatch)=> {

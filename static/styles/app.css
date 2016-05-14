@@ -2,6 +2,10 @@ a {
   cursor: pointer;
 }
 
+#status {
+  color: rgba(255, 130, 130, 0.7);
+}
+
 .page ul a,
 .search input,
 .page input,

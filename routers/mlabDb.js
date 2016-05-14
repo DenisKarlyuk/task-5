@@ -46,14 +46,12 @@ router.route('/:collection')
   function getApi(req, res) {
     fetch(req.createUrl)
       .then((response)=> response.json())
-      .then((json)=> res.send(json))
-      .catch((text)=> res.status(500).send(text));
+      .then((json)=> res.send(json));
   }
 
   function postPutApi(options, req, res) {
     fetch(req.createUrl, options)
-      .then(()=> res.send())
-      .catch((text)=> res.status(500).send(text));
+      .then(()=> res.send());
   }
 
  export default router;

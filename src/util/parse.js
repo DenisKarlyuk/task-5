@@ -27,7 +27,19 @@ export function parse(parse) {
     });
   }
 
-  return (<div className="non"><h3>Not found</h3></div>);
+let text = (
+  <span>
+    <h1 id="status">{parse.status_code}</h1>
+    <h4>{parse.status_message}</h4>
+  </span>) || 'Not found';
+
+  return (
+    <div className="non">
+        <h3>
+           {text}
+        </h3>
+    </div>
+  );
 }
 
 export function ratingCount(voteAverage, voteCount, votes) {

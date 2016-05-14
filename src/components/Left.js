@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ratingCount } from '../util/reqParse';
+import { ratingCount } from '../util/parse';
 
 export default class Left extends Component {
 
