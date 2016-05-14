@@ -12,10 +12,11 @@ export default class List extends Component {
   render() {
 
     let listMovie = this.props.list;
+    let listContent;
 
     if (listMovie.length) {
 
-      listMovie = listMovie.map((x)=> {
+      listContent = listMovie.map((x)=> {
         if(x.media_type==='tv') return x='';
 
         let poster = x.poster_path || x.profile_path || false;
@@ -46,7 +47,7 @@ export default class List extends Component {
           <h4>{listMovie.status_message}</h4>
         </span>) || <h3>'Not found'</h3>;
 
-      listMovie = (
+      listContent = (
         <div className="non">
           {text}
         </div>
@@ -74,7 +75,7 @@ export default class List extends Component {
     return (
       <div>
         <div className="list">
-          { listMovie }
+          { listContent }
         </div>
         <div className={ pages<2 ? 'none' : 'page' }>
           <ul>{ arrPage }</ul>

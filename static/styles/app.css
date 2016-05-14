@@ -356,13 +356,13 @@ main {
     align-content:flex-start;
 }
 
-.left :nth-child(6) :nth-child(2) {
-    margin-left: 5px;
-}
-
 .left p>a, .right i {
     color: #fb9292;
     transition: 0.5s;
+}
+
+.left p>a {
+  margin-left: 5px;
 }
 
 .left>p {
