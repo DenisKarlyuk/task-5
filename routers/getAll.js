@@ -11,12 +11,7 @@ const app = express();
 
 app.use((req, res)=> {
 
-  let url = req.originalUrl.slice(1);
-
-  if(!url.length) {
-    url = 'movie/top_rated';
-  }
-
+  let url = req.originalUrl.slice(1) || 'movie/top_rated';;
   let allDispatch = [reqGenres(), apiRequest(url)];
   let idMovie = url.match(/\d+/);
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Left from './Left';
-import Right from './Right';
+import MovieInfo from './MovieInfo';
+import MovieDetail from './MovieDetail';
 import List from './List';
 
 export default class Main extends Component {
@@ -12,8 +12,8 @@ export default class Main extends Component {
 
       readyPage = (
         <div className = "details">
-          <Left {...this.props}/>
-          <Right {...this.props} clickPoster={this.onClickPoster}/>
+          <MovieInfo {...this.props}/>
+          <MovieDetail {...this.props} clickPoster={this.onClickPoster}/>
         </div>
       );
     }
