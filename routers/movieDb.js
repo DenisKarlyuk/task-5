@@ -5,6 +5,7 @@ import key from '../config/keys.conf';
 const router = express.Router();
 const MOVIEDB_URL = props['moviedb.url'];
 const MOVIEDB_KEY = `api_key=${key['moviedb.key']}`;
+
 const NOT_FOUND = {
   "status_code": 404,
   "status_message": "The resource you requested could not be found."
@@ -35,7 +36,7 @@ router.get('/movie/:id', (req, res)=> {
   });
 
 router.use((req,res)=> {
-  res.status(404).send(NOT_FOUND)
+  res.status(NOT_FOUND.status_code).send(NOT_FOUND)
 });
 
 function getApi(url, res, req) {
@@ -53,16 +54,16 @@ function getApi(url, res, req) {
     .then((json)=> {
 
       if(json.status_code===34) {
-        return res.status(404).send(NOT_FOUND)
+        return res.status(NOT_FOUND.status_code).send(NOT_FOUND)
       }
 
       if(json.status_code===7) {
-        return res.status(500).send(SERVER_ERROR)
+        return res.status(SERVER_ERROR.status_message).send(SERVER_ERROR)
       }
 
       return res.send(json)
     })
-    .catch((text)=> res.status(500).send(SERVER_ERROR));
+    .catch((text)=> res.status(SERVER_ERROR.status_message).send(SERVER_ERROR));
 }
 
  export default router;

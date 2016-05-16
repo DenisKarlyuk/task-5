@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { ratingCount } from '../util/util';
+import props from '../../config/conf';
+
+const IMG_URL_W300 = props['image.url.w300'];
 
 export default class Left extends Component {
 
@@ -29,7 +32,7 @@ export default class Left extends Component {
     let rank = ratingCount(parse.vote_average, parse.vote_count, this.props.rank);
 
     let src = parse.poster_path
-      ? 'https://image.tmdb.org/t/p/w300'+parse.poster_path
+      ? `${IMG_URL_W300}${parse.poster_path}`
       : '/img/no.png';
 
     let stars = new Array(10).fill(10).map((x, ind)=>

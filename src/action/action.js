@@ -40,12 +40,10 @@ export function apiRequest(url) {
       .then((resp) => resp.json())
       .then((json) => {
 
-        if(!json.total_pages) {
-          json.total_pages = 0;
-        }
+        let totalPages = json.total_pages || 0;
 
         dispatch(getList((json.results||json.cast||json), url,
-          (json.page||0), (json.total_pages>1000 ? 1000 : json.total_pages)))
+          (json.page||0), (totalPages>1000 ? 1000 : totalPages)))
         })
 
       .catch((text)=> dispatch(reqError(text)));

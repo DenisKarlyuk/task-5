@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import props from '../../config/conf';
+
+const IMG_URL_W300 = props['image.url.w300'];
 
 export default class List extends Component {
 
@@ -20,7 +23,7 @@ export default class List extends Component {
         if(x.media_type==='tv') return x='';
 
         let poster = x.poster_path || x.profile_path || false;
-        let src = poster ? `https://image.tmdb.org/t/p/w300${poster})`
+        let src = poster ? `${IMG_URL_W300}${poster})`
                          : '/img/no.png';
 
         let type = x.title ? 'movie' : 'person';
@@ -28,7 +31,7 @@ export default class List extends Component {
 
         return (
           <figure key={`${type}${x.id}`} id={`${type}/${x.id}`}
-                  onClick={this.props.clickPoster.bind(this, [x.id, type])}>
+                  onClick={this.props.clickPoster.bind(this,{id:x.id, type:type})}>
             <img src={src}/>
               <figcaption>
                 <span style={style}>{type}</span>

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import props from '../../config/conf';
+
+const IMG_URL_W185 = props['image.url.w185'];
 
 export default class Right extends Component {
 
@@ -33,10 +36,10 @@ export default class Right extends Component {
 
     if(parse.credits.cast.length) {
       cast = parse.credits.cast.map((x)=> {
-        let src = x.profile_path ? 'https://image.tmdb.org/t/p/w185'+x.profile_path
+        let src = x.profile_path ? `${IMG_URL_W185}${x.profile_path}`
                                  : '/img/no.png';
         return (
-          <figure key = {x.id} onClick={this.props.clickPoster.bind(this,[x.id, 'person'])}>
+          <figure key = {x.id} onClick={this.props.clickPoster.bind(this,{id:x.id, type:'person'})}>
             <img src = {src}/>
               <figcaption>
                 <p>{x.name}</p>

@@ -1,20 +1,21 @@
 export function ratingCount(voteAverage, voteCount, votes) {
+
+  const WIDTH_DIV_RATING = 208;
+  const FIX_WIDTH_DIV_RATING = 5;
+
   let myVoteCount = votes.length;
   let myVoteAverage = votes.reduce((x, y)=> {
     return x+(+y.value)
   },0);
 
   let sumVoteCount = voteCount+myVoteCount;
-  let sumVoteAverage = Math.round((voteAverage*voteCount+myVoteAverage)/sumVoteCount*10);
-
-  sumVoteAverage = sumVoteAverage/10;
+  let sumVoteAverage = Math.round((voteAverage*voteCount+myVoteAverage)/sumVoteCount*10)/10;
 
   if(isNaN(sumVoteAverage)) {
     sumVoteAverage=0;
   }
 
-  //вычисление ширины блока рейтинга, (5)- корректировка ширины
-  let calcWidthRating = (208/100)*((sumVoteAverage||0)*10)+5;
+  let calcWidthRating = WIDTH_DIV_RATING*sumVoteAverage/10+FIX_WIDTH_DIV_RATING;
 
   return {
     voteCount: sumVoteCount,
