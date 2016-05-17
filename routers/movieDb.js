@@ -16,42 +16,42 @@ const SERVER_ERROR = {
 };
 
 router.get('/person/:id/combined_credits', (req, res)=> {
-  let url = `/person/${req.params.id}/combined_credits?`;
-  new getApi(url, res, req);
+  let path = `/person/${req.params.id}/combined_credits?`;
+  getApi(path, res, req);
 });
 
 router.get('/search/:id', (req, res)=> {
-  let url = `/search/${req.params.id}?`;
-  new getApi(url, res, req);
+  let path = `/search/${req.params.id}?`;
+  getApi(path, res, req);
 });
 
 router.get('/genre/:id/movies', (req, res)=> {
-  let url = `/genre/${req.params.id}/movies?`;
-  new getApi(url, res, req);
+  let path = `/genre/${req.params.id}/movies?`;
+  getApi(path, res, req);
 });
 
 router.get('/movie/:id', (req, res)=> {
-  let url = `/movie/${req.params.id}?`;
-  new getApi(url, res, req);
+  let path = `/movie/${req.params.id}?`;
+  getApi(path, res, req);
   });
 
-router.use((req,res)=> {
+router.use((req, res)=> {
   res.status(NOT_FOUND.status_code).send(NOT_FOUND)
 });
 
-function getApi(url, res, req) {
-  this.url = MOVIEDB_URL+url+MOVIEDB_KEY;
+function getApi(path, res, req) {
+  let url = MOVIEDB_URL+path+MOVIEDB_KEY;
 
-  if(req.query.page) this.url += `&page=${req.query.page}`;
-  if(req.query.append_to_response) this.url += `&append_to_response=${req.query.append_to_response}`;
-  if(req.query.query) this.url += `&query=${req.query.query}`;
+  if(req.query.page) url += `&page=${req.query.page}`;
+  if(req.query.append_to_response) url += `&append_to_response=${req.query.append_to_response}`;
+  if(req.query.query) url += `&query=${req.query.query}`;
 
   console.log(
     `--start_GET_API_MOVIE--
-    Method: ${req.method} Url: ${this.url}\n--end_GET_API_MOVIE--\n`
+    Method: ${req.method} Url: ${url}\n--end_GET_API_MOVIE--\n`
   );
 
-  fetch(this.url)
+  fetch(url)
     .then((response)=> response.json())
     .then((json)=> {
 
