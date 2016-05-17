@@ -27,9 +27,10 @@ export function ratingCount(voteAverage, voteCount, votes) {
 export function createUrl(type, id, call, query, url) {
 
   if(type==='page') {
-    let clearUrl = url.replace(/\?page=.+/, '');
+    let clearUrl = url.replace(/[?|&]page=.+/, '');
+    let twoQuery = (/\?/).test(clearUrl) ? '&' : '?';
 
-    return `${clearUrl}?page=${query}`;
+    return `${clearUrl}${twoQuery}page=${query}`;
   }
 
   let option = {

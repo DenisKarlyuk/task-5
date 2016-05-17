@@ -59,11 +59,11 @@ export default class List extends Component {
 
     const pages = this.props.pages;
     const page = this.props.page;
-    let fillArr = page<5 ? 1 : page+4>pages
+    let fillArr = page<5 ? 1 : page+3>pages
                          ? pages-6 : page-3;
-//переключение страниц
+
     let arrPage = new Array(pages<8 ? pages : 7)
-     .fill(fillArr).map((x, ind)=> {
+     .fill(fillArr||1).map((x, ind)=> {
       x = x+ind;
       return (
         <li key={`page${ind}`}>

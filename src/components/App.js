@@ -30,14 +30,12 @@ componentDidMount() {
 
     if(url===this.props.url) return;
 
-    history.pushState({url: url}, null, `/${url}`);
-
     if(type==='movie' && call==='main') {
       this.props.reqDb('rank', id);
       this.props.reqDb('comment', id);
-
     }
 
+    history.pushState({url: url}, null, `/${url}`);
     this.props.requestApi(url);
     document.body.scrollTop = 0;
   }

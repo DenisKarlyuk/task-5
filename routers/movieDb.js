@@ -46,8 +46,10 @@ function getApi(url, res, req) {
   if(req.query.append_to_response) this.url += `&append_to_response=${req.query.append_to_response}`;
   if(req.query.query) this.url += `&query=${req.query.query}`;
 
-  console.log(`--start--\n Method: ${req.method}
-  Url: ${this.url}\n Body: ${JSON.stringify(req.body)}\n--end--`);
+  console.log(
+    `--start_GET_API_MOVIE--
+    Method: ${req.method} Url: ${this.url}\n--end_GET_API_MOVIE--\n`
+  );
 
   fetch(this.url)
     .then((response)=> response.json())

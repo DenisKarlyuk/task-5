@@ -25,7 +25,7 @@ app.get('/*', getAll);
 
 function logger(req, res, next) {
   console.log(`--start--\n Method: ${req.method}
-  Url: ${req.originalUrl}\n Body: ${JSON.stringify(req.body)}\n--end--`);
+  Url: ${req.originalUrl}\n Body: ${JSON.stringify(req.body)}\n--end--\n`);
 
   next();
 }

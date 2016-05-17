@@ -19,7 +19,7 @@ app.use((req, res)=> {
     clientId: req.cookies.clientId
   });
 
-  if(idMovie!==null) {
+  if(idMovie) {
 
     let dbDispatch = [
       apiDb('comment', idMovie),
@@ -32,7 +32,7 @@ app.use((req, res)=> {
   Promise.all(allDispatch.map(store.dispatch))
     .then(renderView)
     .then((html)=> res.end(html))
-    .catch((error)=> {console.log(error);return res.status(500).send('500 Internal Server Error')});
+    .catch((error)=> res.status(500).send('500 Internal Server Error'));
 
   function renderView(req, res, next) {
 
