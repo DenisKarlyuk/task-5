@@ -28,7 +28,7 @@ export function createUrl(type, id, call, query, url) {
 
   if(type==='page') {
     let clearUrl = url.replace(/[?|&]page=.+/, '');
-    let twoQuery = (/\?/).test(clearUrl) ? '&' : '?';
+    let twoQuery = clearUrl.includes('?') ? '&' : '?';
 
     return `${clearUrl}${twoQuery}page=${query}`;
   }

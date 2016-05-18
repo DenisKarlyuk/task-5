@@ -29,8 +29,8 @@ export default class Main extends Component {
     );
   }
 
-  onClickPoster(data) {
+  onClickPoster({type, id}) {
 
-    this.props.request(data.type, data.id, 'main');
+    this.props.request(type, id, 'main');
   }
 }
